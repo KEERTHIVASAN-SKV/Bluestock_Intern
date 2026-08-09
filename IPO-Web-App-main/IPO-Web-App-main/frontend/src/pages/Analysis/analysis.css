@@ -1,0 +1,141 @@
+.container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: white;
+  color: black;
+  padding-left: 80px;
+}
+
+
+.breadcrumb {
+  font-size: 16px;
+  margin-bottom: 16px;
+  color: #555;
+  padding-top: 110px;
+  padding-left: 5px;
+
+}
+
+.breadcrumb-item {
+  color: #007bff;
+  cursor: pointer;
+}
+
+.breadcrumb-item.active {
+  font-weight: bold;
+  color: #333;
+}
+
+.breadcrumb-separator {
+  margin: 0 8px;
+  color: #888;
+}
+
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.logo {
+  font-size: 24px;
+  color: #4b4be3;
+  font-weight: bold;
+}
+
+.auth-buttons button {
+  margin-left: 10px;
+  padding: 6px 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.signup {
+  background-color: #4b4be3;
+  color: white;
+  border-radius: 5px;
+}
+
+.signin {
+  background-color: transparent;
+  color: #333;
+}
+
+.market-info {
+  display: flex;  
+  gap: 20px;
+  text-align: start;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border: 1px solid #333;
+  border-radius: 5px;
+}
+
+.market-info p {
+    font-size: 18px;
+    font-weight: 500;
+    padding-left: 30px;
+}
+
+
+.nifty h2 {
+    
+    font-size: 22px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 1);
+    
+}
+
+.market-status {
+  color: rgba(255, 0, 0, 1);
+  font-weight: bold;
+}
+
+.green {
+  color:rgba(9, 200, 28, 1);
+}
+
+.red {
+  color:rgba(255, 0, 0, 1);
+}
+
+.gray {
+  color:rgba(147, 147, 147, 1);
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+thead {
+  background-color: #f0f0f0;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.company-link {
+  /* color: #0056b3; */
+  /* text-decoration: underline; */
+  cursor: pointer;
+}
+
+.graph-link {
+  /* color: #007bff; */
+  /* text-decoration: underline; */
+  cursor: pointer;
+}

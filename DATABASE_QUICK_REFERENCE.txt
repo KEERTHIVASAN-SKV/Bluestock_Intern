@@ -1,0 +1,267 @@
+================================================================================
+                    DATABASE STRUCTURE - QUICK REFERENCE
+================================================================================
+
+DATABASE: PostgreSQL 17.10
+PASSWORD: skvasan
+DATABASE NAME: ipo_db
+
+================================================================================
+                          MAIN TABLES (4 TABLES)
+================================================================================
+
+1. COMPANIES TABLE
+   ├─ company_name (TEXT) ............ Company name
+   ├─ company_logo (URL) ............ Company logo URL
+   └─ Stores: Company information
+   
+   Example: Adani Power, TCS, Reliance Industries
+
+2. IPOs TABLE (⭐ MAIN DATA - STOCK PRICES HERE)
+   ├─ company_id (FK) ............... Links to company
+   ├─ price_band (TEXT) ............. Price range (e.g., 329-136)
+   ├─ open_date (DATE) .............. When IPO opens
+   ├─ close_date (DATE) ............. When IPO closes
+   ├─ issue_size (TEXT) ............. Issue size (e.g., 4530 Cr)
+   ├─ issue_type (TEXT) ............. Type (e.g., Book Built)
+   ├─ listing_date (DATE) ........... Listing date
+   ├─ status (VARCHAR) .............. Upcoming/Open/Closed/Listed
+   ├─ ipo_price (DECIMAL) ........... IPO PRICE (STOCK PRICE 1)
+   ├─ listing_price (DECIMAL) ....... LISTING PRICE (STOCK PRICE 2)
+   ├─ listing_gain (DECIMAL) ........ Listing gain % (STOCK PRICE 4)
+   ├─ current_market_price (DECIMAL)  CURRENT PRICE CMP (STOCK PRICE 3)
+   └─ current_return (DECIMAL) ...... Current return %
+   
+   Stores: All IPO details and stock price information
+
+3. DOCUMENTS TABLE
+   ├─ ipo_id (FK) .................. Links to IPO
+   ├─ rhp_pdf (URL) ................ RHP PDF link
+   └─ drhp_pdf (URL) ............... DRHP PDF link
+   
+   Stores: Document/PDF links for each IPO
+
+4. APPLICATIONS TABLE
+   ├─ user_id (FK) ................. User who applied
+   ├─ ipo_id (FK) .................. IPO applied for
+   ├─ quantity (INT) ............... Number of shares
+   └─ status (VARCHAR) ............. Application status
+   
+   Stores: User IPO applications
+
+================================================================================
+                    DJANGO BUILT-IN TABLES (FOR AUTH)
+================================================================================
+
+5. auth_user TABLE
+   ├─ username (TEXT) .............. Login username
+   ├─ password (HASHED) ............ Encrypted password
+   ├─ email (TEXT) ................. User email
+   ├─ is_staff (BOOLEAN) ........... Is admin? Yes/No
+   ├─ is_active (BOOLEAN) .......... Active account? Yes/No
+   └─ date_joined (DATETIME) ....... Registration date
+   
+   Stores: User accounts and authentication
+
+6. Other Django Tables (Session, Permission, etc.)
+   └─ Used by Django framework
+
+================================================================================
+                        STOCK PRICE DATA LOCATION
+================================================================================
+
+WHERE IS STOCK DATA STORED?
+===========================
+
+In 'ipos' table, these columns store STOCK PRICES:
+
+  1. ipo_price
+     └─ Initial offering price
+     └─ Example: ₹383
+
+  2. listing_price
+     └─ Price on listing day
+     └─ Example: ₹435
+
+  3. current_market_price
+     └─ Current trading price (CMP)
+     └─ Example: ₹410
+
+  4. listing_gain
+     └─ % gain from IPO to listing
+     └─ Example: 13.58%
+
+  5. current_return
+     └─ % return from IPO to now
+     └─ Example: 7.05%
+
+WHERE IS LIVE MARKET DATA?
+===========================
+
+API Endpoint: /api/v1/stock/
+   └─ Fetches LIVE data from NSE (National Stock Exchange)
+   └─ Returns: 52-week high/low prices
+   └─ NOT stored in database
+   └─ Fetched in real-time via nselib library
+
+================================================================================
+                          RELATIONSHIPS
+================================================================================
+
+companies (1)
+    │
+    ├─ ONE company has MANY IPOs (1:N)
+    │
+    └─→ ipos
+        │
+        ├─ ONE IPO has MANY documents (1:N)
+        │  └─→ documents (RHP, DRHP PDFs)
+        │
+        └─ ONE IPO has MANY applications (1:N)
+           └─→ applications (user subscriptions)
+               │
+               └─ MANY applications for ONE user (N:1)
+                  └─→ auth_user
+
+================================================================================
+                        DATA STORAGE EXAMPLE
+================================================================================
+
+Add 1 IPO with Complete Data:
+
+1. Company Table:
+   ID=1, name="Adani Power", logo="https://..."
+
+2. IPO Table:
+   ID=1, company_id=1, price_band="329-136",
+   open_date="2024-06-03", close_date="2024-06-05",
+   ipo_price=383.00, listing_price=435.00,
+   current_market_price=410.00,
+   listing_gain=13.58, current_return=7.05
+
+3. Documents Table:
+   ID=1, ipo_id=1, rhp_pdf="https://...", drhp_pdf="https://..."
+
+4. Applications Table:
+   Multiple entries when users apply for this IPO
+
+Result: ONE complete IPO entry with all stock price data
+
+================================================================================
+                        ACCESSING THE DATA
+================================================================================
+
+VIA ADMIN PANEL:
+  http://localhost:8000/admin/
+  └─ Login with: username=admin
+  └─ See all tables visually
+
+VIA REST API:
+  GET  /api/v1/companies/        → List all companies
+  GET  /api/v1/ipos/             → List all IPOs with stock prices
+  GET  /api/v1/documents/        → List all documents
+  GET  /api/v1/applications/     → List all applications
+  GET  /api/v1/stock/            → Live market data from NSE
+  POST /api/v1/ipos/             → Add new IPO (admin only)
+
+VIA DIRECT SQL:
+  SELECT * FROM companies;
+  SELECT * FROM ipos;
+  SELECT * FROM documents;
+  SELECT * FROM applications;
+  SELECT * FROM auth_user;
+
+================================================================================
+                        DATA TYPES
+================================================================================
+
+VARCHAR .......... Text (company names, types)
+TEXT ............ Longer text (descriptions)
+DATE ............ Date only (2024-06-03)
+DECIMAL(10,2) ... Prices (383.50, 435.00)
+DECIMAL(5,2) .... Percentages (13.58, 7.05)
+INTEGER ......... Whole numbers (100 shares)
+URL ............ Web addresses (up to 500 chars)
+BOOLEAN ........ Yes/No (True/False)
+DATETIME ....... Date + Time (auto timestamps)
+
+================================================================================
+                        TOTAL DATA SIZE
+================================================================================
+
+Per Company: ~500 bytes
+Per IPO: ~200 bytes
+Per Document: ~500 bytes
+Per Application: ~50 bytes
+Per User: ~300 bytes
+
+For 1000 IPOs:
+  Companies: ~50 KB
+  IPOs: ~200 KB
+  Documents: ~500 KB
+  Applications: ~500 KB
+  Users: ~300 KB
+  ─────────────────
+  TOTAL: ~1.5 MB (Very small!)
+
+================================================================================
+                    IMPORTANT: WHAT'S STORED VS NOT STORED
+================================================================================
+
+✅ STORED IN DATABASE:
+   • Company information
+   • IPO details
+   • Stock prices (IPO, Listing, CMP)
+   • Calculated returns and gains
+   • Document links (RHP/DRHP PDFs)
+   • User applications
+   • User accounts
+   • Authentication data
+
+❌ NOT STORED (Fetched Live):
+   • Real-time stock quotes (from NSE)
+   • Historical stock data (from NSE)
+   • 52-week highs/lows (from NSE API)
+   • News or articles
+   • Financial statements
+
+================================================================================
+                    QUICK QUERY EXAMPLES
+================================================================================
+
+Get all IPOs with prices:
+  SELECT company.company_name, ipo.ipo_price, ipo.current_market_price
+  FROM ipos
+  JOIN companies ON ipos.company_id = companies.id;
+
+Get IPOs by status:
+  SELECT * FROM ipos WHERE status = 'Listed';
+
+Get user applications:
+  SELECT auth_user.username, ipos.company.company_name, applications.quantity
+  FROM applications
+  JOIN auth_user ON applications.user_id = auth_user.id
+  JOIN ipos ON applications.ipo_id = ipos.id;
+
+Get all documents:
+  SELECT ipos.company.company_name, documents.rhp_pdf, documents.drhp_pdf
+  FROM documents
+  JOIN ipos ON documents.ipo_id = ipos.id;
+
+================================================================================
+                    CONNECTING TO DATABASE
+================================================================================
+
+Command: psql -U postgres -d ipo_db
+Password: skvasan
+Host: localhost
+Port: 5432
+
+List tables: \dt
+Describe table: \d companies
+Query: SELECT * FROM ipos;
+Exit: \q
+
+================================================================================
+Status: Database Ready with Complete Stock Price Data
+================================================================================

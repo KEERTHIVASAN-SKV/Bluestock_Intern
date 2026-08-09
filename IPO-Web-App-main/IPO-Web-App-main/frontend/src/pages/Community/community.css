@@ -1,0 +1,335 @@
+.community-container {
+  font-family: Arial, sans-serif;
+  margin: 5%;
+
+  width: 100%;
+  margin-top: 10%;
+}
+
+.hero-section {
+  width: 1065px;
+  height: 463px;
+  top: 278px;
+  left: 428px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  /* justify-content: space-between; */
+  text-align: start;
+  gap: 220px;
+  padding-top: 50px;
+}
+
+.hero-text {
+  flex: 1;
+  max-width: 600px;
+
+  height: 300px;
+  padding-left: 280px;
+
+}
+
+.hero-text h2 {
+  font-size: 40px;
+  color: rgba(42, 57, 78, 1);
+  font-weight: 700;
+  line-height: 100%;
+  text-align: start;
+  width: 428px;
+}
+
+.hero-text p {
+  font-size: 15px;
+  color: #555;
+  font-weight: 400;
+  text-align: start;
+  width: 428px;
+}
+
+.join-button {
+  background-color: rgba(63, 82, 255, 1);
+  color: rgba(255, 255, 255, 1);
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.chat-preview img {
+  position: absolute;
+  height: 400px;
+  width: 400px;
+  align-items: end;
+  padding-left: px;
+}
+
+.club-right {
+  display:flex;
+  gap: 20px;
+  /* align-items: flex-end; */
+  /* flex: 1;
+  justify-content: center; */
+  flex-wrap: wrap;
+  min-width: 300px;
+}
+
+.club-card {
+  width: 185px;
+  height: 182px;
+  background: linear-gradient(rgba(227, 228, 236, 1), rgba(243, 245, 255, 0));
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1);
+  font-size: 15px;
+  
+}
+
+
+
+.trading-club {
+  text-align: start;
+  margin-top: 40px;
+  width: 1299px;
+  height: 354px;
+  left: 377px;
+  padding-left: 280px;
+  display: flex;
+  gap: 50px;
+}
+
+.trading-club h3 {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 100%;
+  color: rgba(42, 57, 78, 1);
+  text-align: start;
+  width: 355px;
+  height: 96px;
+}
+
+.benefits p {
+  font-size: 15px;
+  color: rgba(0, 0, 0, 1);
+  font-weight: 300;
+  line-height: 100%;
+  text-align: start;
+
+  width: 277px;
+}
+
+.club-features {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.feature {
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.team-section {
+  text-align: center;
+  margin-top: 40px;
+  display: flex;
+  padding-left: 250px;
+}
+
+.blue h3 {
+  font-size: 36px;
+  font-weight: 700;
+  color: rgba(42, 57, 78, 1);
+  text-align: center;
+}
+
+.blue p {
+  font-size: 15px;
+  /* width: 287px; */
+  text-align: center;
+  padding-left: 0px;
+}
+
+.chat-box{
+  padding-left: 150px;
+}
+
+.chat-box img {
+  max-width: 100%;
+}
+
+.experts-section {
+  text-align: center;
+  margin-top: 40px;
+  padding-left: px;
+  padding-right: 20px;
+}
+
+.experts-section h3 {
+  font-size: 32px;
+  font-weight: 700;
+  color: rgba(42, 57, 78, 1);
+}
+
+.experts-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.experts-section li {
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(0, 0, 0, 1);
+  margin: 10px 0;
+  text-align: start;
+}
+
+@media screen and (max-width: 768px) {
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-text {
+    max-width: 100%;
+  }
+
+  .club-features {
+    flex-direction: column;
+    margin-top: 10%;
+  }
+
+  .trading-club {
+    position: relative;
+    margin-top: 10%;
+  }
+
+  .chat-preview {
+    margin-top: 10%;
+  }
+
+  .club-features {
+    margin-top: 10%;
+  }
+
+  .experts-section {
+    margin-top: 10%;
+  }
+}
+
+
+.qna-wrapper {
+  max-width: 500px;
+  margin: auto;
+  font-family: sans-serif;
+}
+
+.question-card {
+  display: flex;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  background: white;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.question-content .question-header {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.question-content .question-header span {
+  color: #888;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+.question-text {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 6px 0;
+}
+
+.question-footer {
+  font-size: 12px;
+  color: #666;
+  display: flex;
+  gap: 15px;
+}
+
+.answer-stack {
+  position: relative;
+  padding-left: 10px;
+}
+
+.answer-card {
+  position: relative;
+  display: flex;
+  padding: 15px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  z-index: 3;
+}
+
+.shadow-card {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  z-index: 1;
+}
+
+.shadow-card:nth-child(3) {
+  top: 20px;
+  left: 20px;
+  z-index: 0;
+}
+
+.answer-content {
+  flex: 1;
+}
+
+.answer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tag {
+  background: #f5c518;
+  color: black;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.answer-text {
+  font-size: 14px;
+  margin-top: 6px;
+  color: #333;
+}

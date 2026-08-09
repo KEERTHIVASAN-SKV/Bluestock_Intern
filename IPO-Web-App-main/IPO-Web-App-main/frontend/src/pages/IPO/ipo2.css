@@ -1,0 +1,88 @@
+.ipo2-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    width: 1304px;
+    height: 497px;
+    color: rgba(255, 255, 255, 1);
+    top: 1054px;
+  }
+  
+  .ipo2-card {
+    background: white;
+    padding: 30px;
+    max-width: 100%;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    /* width: 132px;
+    height: 118px; */
+  }
+  
+  .ipo2-logo {
+    max-width: 100%;
+    margin-bottom: 10px;
+    height: 118px;
+    width: 132px;
+    
+    
+    
+  }
+
+  .display-flex {
+    display: flex;
+    
+  }
+  
+  .ipo2-title {
+    font-size: 45px;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 5px;
+    /* width: 263px;
+    height: 68px;
+    top: 994px;
+    left: 882px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 150px;
+    
+  }
+  
+  .ipo2-subtitle {
+    font-size: 35px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .ipo2-text {
+    font-size: 20px;
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  
+  .ipo2-btn {
+    background-color: rgba(63, 82, 255, 1);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    
+}
+  
+  .ipo2-btn:hover {
+    background-color: #0b58dd;
+  }
+  
+  @media (max-width: 768px) {
+    .ipo2-card {
+      padding: 20px;
+    }
+  }
+  

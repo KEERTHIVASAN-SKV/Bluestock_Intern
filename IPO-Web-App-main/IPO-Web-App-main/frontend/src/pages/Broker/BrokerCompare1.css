@@ -1,0 +1,68 @@
+.brokerage-container {
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  .brokerage-charges {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .brokerage-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .broker-card {
+    background: linear-gradient(to bottom, #00c9ff, #92fe9d);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    width: 100px;
+    text-align: center;
+  }
+  
+  .broker-logo {
+    width: 40px;
+    margin-bottom: 10px;
+  }
+  
+  .complaints-chart {
+    margin-top: 20px;
+    background: #fff;
+    padding: 30px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .chart-icon {
+    font-size: 40px;
+    color: #2563eb;
+  }
+  
+  @media (max-width: 768px) {
+    .brokerage-row {
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px;
+    }
+  
+    .broker-card {
+      width: 80px;
+      padding: 15px;
+    }
+  
+    .broker-logo {
+      width: 35px;
+    }
+  }
+  

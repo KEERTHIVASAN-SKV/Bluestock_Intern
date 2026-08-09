@@ -1,0 +1,146 @@
+.ipo-container {
+    font-family: Arial, sans-serif;
+    margin-top: 5%;
+    max-width: 100vw;
+  }
+  
+  h2 {
+    color: #333;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    font-size: 20px;
+    margin: 8px;
+  }
+
+  .text-1 {
+    font-size: 20px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 1);
+  }
+  
+.new-paragraph {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    color: #333;
+    font-size: 14px;
+    margin: 8px;
+    padding-left: 8px;
+}
+
+
+.new-paragraph2 {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    color: #333;
+    font-size: 14px;
+    margin: 8px;
+}
+
+  .ongoing-ipo, .new-listed {
+    margin-bottom: 40px;
+    font-size: 20px;
+    display:flexbox;
+  }
+  
+  .ipo-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px 0;
+    max-width: 400px;
+  }
+  
+  .company-name {
+    color: rgba(70, 124, 255, 1);
+    font-weight: 400;
+    font-size: 24px;
+  }
+/*   
+  .bold {
+    
+    font-size: 18px;
+  } */
+  
+  .buttons {
+    margin-top: 10px;
+  }
+  
+  .rhp-btn, .drhp-btn {
+    border-radius: 15px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 22px;
+    height: 43px;
+    width: 105px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+}
+  
+  .rhp-btn {
+    background-color: rgba(225, 239, 255, 1);
+    color: rgba(0, 0, 0, 1);
+    margin-top: 20px;
+    margin-left: 20px;
+  }
+  
+  .drhp-btn {
+    background-color: rgba(225, 239, 255, 1);
+    color: rgba(0, 0, 0, 1);
+    margin-top: 20px;
+  }
+  
+  .view-all {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    align-items: end;
+    display: flex;
+    justify-items: end;
+    margin-left: 8px;
+  }
+  
+  .ipo-news-analysis {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    text-align: start;
+    max-width: 90vw;
+  }
+
+  
+  .ipo-news, .ipo-analysis {
+    background: rgba(255, 255, 255, 1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 48%;
+    font-size: 16px;
+    color:rgba(0, 0, 0, 1) ;
+    margin: 20px;
+    text-align: start;
+  }
+  
+  .ipo-news h3, .ipo-analysis h3 {
+    color:rgba(0, 0, 0, 1);
+    font-size: 24px;
+    color: rgba(0, 0, 0, 1);
+    font-weight: 700;
+  }
+  
+
+  .ipo-news p, .ipo-analysis p {
+    font-size: 16px;
+    font-weight: 500;
+    text-align: start;padding-top: 15px;
+  }

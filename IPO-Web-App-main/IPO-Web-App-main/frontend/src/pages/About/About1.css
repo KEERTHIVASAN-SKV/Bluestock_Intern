@@ -1,0 +1,204 @@
+.about-container {
+    font-family: Arial, sans-serif;
+    width: 100%;
+    margin: 1%;
+    margin-top: 10%;
+   
+  } 
+
+  .heading-2{
+    font-size: 44px;
+    font-weight: 500;
+    font-style: bold;
+    padding-top: 70px;
+    padding-left: 110px;
+    color: rgba(255, 255, 255, 1);
+  }
+
+
+
+
+  .para-2{
+    font-weight: 500;
+    font-size: 24px;
+    font-style: poppins;
+    color: rgba(255, 255, 255, 1);
+    height: 216px;
+    width: 980px;
+    padding-top: 5px;
+    padding-left: 110px;
+    text-align: start;
+    
+  }
+
+  .freq-1{
+    width: fixed(1440px);
+    height: fixed(925px);
+    gap: 8px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+
+  .traders-talk{
+    word-spacing: 20px;
+    letter-spacing: 10px;
+    padding-top: 90px;
+    font-size: 20px;
+    font-weight: 600;
+    color: rgba(106, 117, 130, 1);
+  }
+
+
+  .container-big{
+    width: 1478px;
+    height: 614px;
+    font-family: poppins;
+    font-weight: 600;
+    font-size: 32px;
+
+  }
+
+  .home-about {
+   text-align: start;
+   font-size: 16px;
+   color: #4a90e2;
+   font-style: poppins;
+   font-weight: 500;
+   padding-top: 40px;
+  }
+  
+  .intro-section {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .intro-section h2 {
+    font-size: 2rem;
+    color: #1a1a1a;
+  }
+  
+  .intro-section p {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 10px;
+  }
+  
+  .stats-section {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    margin: 40px 0;
+  }
+  
+  .stat-box {
+    background-color: #4a90e2;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    flex: 1;
+    margin: 10px;
+  }
+  
+  .news-section {
+    text-align: center;
+    margin-top: 40px;
+  }
+  
+  .news-section h3 {
+    font-size: 1rem;
+    color: #888;
+  }
+  
+  .news-section h2 {
+    font-size: 1.5rem;
+    color: #1a1a1a;
+  }
+  
+  .news-articles {
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .news-item {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 10px;
+    width: 30%;
+    text-align: left;
+  }
+  
+  .news-button {
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 20px;
+  }
+  
+  .join-us-section {
+    background-color: #4a90e2;
+    color: white;
+    padding: 40px;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 40px;
+  }
+  
+  .apply-button {
+    background-color: white;
+    color: #4a90e2;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 20px;
+    font-weight: bold;
+  }
+  
+  .faq-section {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .faq-section h2 {
+    font-size: 1.5rem;
+    color: #1a1a1a;
+  }
+  
+  .faq-item {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px auto;
+    width: 80%;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .stats-section {
+      flex-direction: column;
+    }
+  
+    .news-articles {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .news-item {
+      width: 90%;
+    }
+  
+    .faq-item {
+      width: 100%;
+    }
+    .about-container {
+        margin-top: 100px;
+    }
+  }
+  

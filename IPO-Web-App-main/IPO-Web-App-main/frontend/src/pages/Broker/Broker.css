@@ -1,0 +1,203 @@
+.broker-details-container {
+  margin-top: 6%;
+  width: 1700px;
+  text-align: center;
+  top: 449px;
+  padding-left: 80px;
+}
+
+.page-title {
+  font-size: 96px;
+  font-weight: 600;
+  color: #6a5acd;
+  text-align: start;
+  padding-left: 0px;
+}
+
+.page-title span {
+  color: #16a34a;
+}
+
+.broker-details-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+.broker-details-card:hover {
+  transform: translateY(-5px);
+}
+
+.flex-1 {
+  display: flex;
+  
+}
+
+.broker-info {
+  flex: 5;
+  width: 1700px;
+  height: 569px;
+  /* display: flex; */
+  /* text-align: left; */
+}
+
+.broker-info h2 {
+  font-size: 50px;
+  margin-bottom: 25px;
+  padding-top: 0px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1);
+}
+
+.rating {
+  display: flex;
+  gap: 5px;
+  color: rgba(250, 191, 53, 1);
+  padding-left: 25px;
+  padding-top: 5px;
+  padding-bottom: 25px;
+}
+
+.star-icon {
+  font-size: 18px;
+}
+
+.broker-info p {
+  margin: 5px 0;
+  padding-left: 25px;
+  display: flex;
+  gap: 20px;
+  padding-bottom: 15px;
+  padding-top: 10px;
+}
+
+.free-account {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1);
+  font-size: 30px;
+}
+
+.buttons {
+  margin-top: 10px;
+  display: flex;
+  gap: 50px;
+  
+  padding-left: 25px;
+}
+
+.open-account,
+.learn-more {
+  padding: 8px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  
+  font-size: 21px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1);
+}
+
+.open-account {
+  background-color: white;
+  color: rgba(0, 0, 0, 1);
+}
+
+.learn-more {
+  background-color: white;
+  color: rgba(0, 0, 0, 1);
+}
+
+.broker-services,
+.broker-charges {
+  flex: 0;
+  text-align: start;
+  padding: 10px;
+  padding-left: 100px;
+  gap: 50px;
+  /* width: 405px;
+  height: 181px;   */
+}
+
+.broker-services p,
+.broker-charges p {
+  margin: 5px 0;
+  width: 205px;
+  padding-top: 40px;
+}
+
+.broker-charges strong {
+  font-size: 14px;
+}
+
+.broker-logo {
+  flex: 1;
+  text-align: right;
+}
+
+.broker-logo img {
+  width: 80px;
+  height: auto;
+}
+
+@media (max-width: 1024px) {
+  .broker-details-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .broker-details-container{
+    margin-top: 100px;
+  }
+
+  .broker-info,
+  .broker-services,
+  .broker-charges,
+  .broker-logo {
+    text-align: center;
+    width: 100%;
+  }
+
+  .broker-logo img {
+    margin-top: 10px;
+    width: 335px;
+    height: auto;
+    padding-top: 300px;
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 28px;
+  }
+
+  .broker-details-card {
+    padding: 15px;
+  }
+
+  .open-account,
+  .learn-more {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .broker-details-card {
+    padding: 10px;
+  }
+
+  .broker-info h2 {
+    font-size: 18px;
+  }
+
+  .star-icon {
+    font-size: 16px;
+  }
+}

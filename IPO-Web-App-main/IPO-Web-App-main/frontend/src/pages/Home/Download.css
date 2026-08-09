@@ -1,0 +1,163 @@
+.download-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    width: 1556px;
+    height: 927px;
+    position: absolute;
+    top: 2700px;
+    height: auto;
+    
+  }
+  
+  .left-section {
+    /* width: 40%; */
+    /* margin-top: -250px; */
+    text-align:start;
+    font-size: 1px;
+    margin: 0%;
+  }
+  
+  .resources-badge {
+    background-color: #00c853;
+    color: white;
+    font-size: 14px;
+    border-radius: 5px;
+    font-weight: 600;
+  }
+  
+  .title {
+    color: rgba(0, 0, 0, 1);
+    font-size: 51px;
+    font-weight: 700;
+    font-weight: bold;
+    margin-top: 10px;
+    line-height: 100%;
+  }
+  
+  .description {
+    
+    color: rgb(222, 34, 34);
+    /* margin-top: 10px; */
+    line-height: 100%;
+    /* height: 128px;
+    width: 647px; */
+    font-weight: 600;
+    left: 94px;
+    text-align: start;
+    font-size: 21px;
+  }
+  
+  .qr-download {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .qr-code {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .qr-text {
+    margin-left: 15px;
+  }
+  
+  .scan-text {
+    color: rgba(0, 19, 244, 1);
+    font-weight: 600;
+    font-size: 29px;
+    width: 294px;
+    height: 44px;
+    left: 364px;
+    text-align: start;
+  }
+  
+  .instruction {
+    color: rgba(154, 154, 154, 1);
+    font-size: 15px;
+    text-align: start;
+  }
+  
+  .feature-icons {
+    display: none;
+    margin-top: 30px;
+    gap: 20px;
+  }
+  
+  .feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .feature img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .feature span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 5px;
+  }
+  
+  .right-section {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    margin-left: 20%;
+  }
+  
+  .mobile-image {
+    width: 300px;
+    
+    
+    padding-top: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .download-container {
+      flex-direction: column;
+      margin-top: 850px;
+      text-align: center;
+      height: auto;
+
+    }
+  
+    .left-section {
+      width: 100%;
+    }
+  
+    .qr-download {
+      justify-content: center;
+     
+    }
+  
+    .qr-text {
+      text-align: left;
+    }
+  
+    .feature-icons {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .right-section {
+      width: 100%;
+      margin-top: 70px;
+    }
+  
+    .mobile-image {
+      width: 100%;
+    }
+    /* .description {
+      position: relative;
+      align-items: center;
+      left: 35%;
+     
+    } */
+  }
+  

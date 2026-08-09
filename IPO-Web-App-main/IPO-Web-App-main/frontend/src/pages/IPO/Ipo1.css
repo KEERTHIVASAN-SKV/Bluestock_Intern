@@ -1,0 +1,189 @@
+.ipo-container {
+  text-align: start;
+  max-width: 100%;
+  margin: 2%;
+  font-family: "Arial", sans-serif;
+
+}
+
+h2 {
+  font-size: 32px;
+  font-weight: bold;
+  color: #222;
+  padding-top: 80px;
+  padding-left: 10px;
+}
+
+
+
+.text-2xl {
+  text-align: start;
+  padding-left: 10px;
+  color: rgba(0, 0, 0, 1);
+  font-size: 14px;
+
+}
+
+.ipo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+
+}
+
+.ipo-header h3 {
+  font-size: 20px;
+  font-weight: 400;
+  padding-left: 20px;
+  color: rgba(0, 0, 0, 1);
+}
+
+.view-all-btn {
+  background-color: rgba(63, 82, 255, 1);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 135px;
+  height: 42px;
+  font-size: 15pz;
+}
+
+.ipo-info {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 1);
+  margin-bottom: 20px;
+  margin-left: 2px;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  padding-left: 18px;
+
+
+}
+
+.scroll-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.ipo-list {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px;
+  gap: 20px;
+  width: 100%;
+  /* font-size: 18px; */
+  text-align: center;
+}
+
+.ipo-list::-webkit-scrollbar {
+  display: none;
+}
+
+.ipo-card {
+  min-width: 280px;
+  max-width: 280px;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-left: 10px;
+}
+
+.ipo-image-container {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.ipo-image-container img {
+  max-width: 40%;
+  height: auto;
+  display: inline-block;
+}
+
+.ipo-name {
+  display: flex;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+
+
+.ipo-card p {
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+.highlight {
+  font-weight: 100;
+  color: #222;
+  font-size: 18px;
+}
+
+.ipo-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.rhp-btn,
+.drhp-btn {
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  border: none;
+}
+
+.rhp-btn {
+  background-color: #ccc;
+  color: #222;
+}
+
+.drhp-btn {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #ffffff;
+  border: none;
+  font-size: 24px;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-btn:hover {
+  background-color: #f1f1f1;
+}
+
+.left {
+  left: -30px;
+}
+
+.right {
+  right: -30px;
+}
+
+@media (max-width: 768px) {
+  .ipo-list {
+    gap: 10px;
+  }
+
+  .scroll-btn {
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,140 @@
+.bottom-section {
+    background: #7EFED30F;
+    width: 99%;
+    position: absolute;
+    top: 5700px;
+    height: 654px;
+  }
+  
+  .content {
+    display: flex;
+    
+    
+  }
+
+  .Compare-button {
+    text-decoration: none;
+    color: white;
+  }
+  
+  .text {
+    max-width: 500px;
+    position: absolute;
+    left: 10%;
+    top: 10%;
+    margin-right: 5%;
+  }
+  
+  .text p {
+    font-size: 28px;
+    color: #000000;
+    font-weight: 700;
+
+  }
+   .name {
+    color: rgb(63, 247, 112);
+    margin: 10px;
+    /* padding-bottom: 20px; */
+    text-align: center;
+    justify-content: center;
+
+   }
+  .text h2 {
+    font-size: 36;
+    color: #1a53ff;
+    font-weight: bold;
+  }
+  
+  .dropdowns {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    color: rgb(209, 58, 58);
+  }
+  
+  .dropdown {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #2316dd;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .dropdown img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding-top: 5px;
+  }
+  
+  .dropdown select {
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .compare-btn {
+    margin-top: 20px;
+    background: #1a53ff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+  
+  .chart {
+    margin-left: 450px;
+    /* width: 650px; */
+    left: 500px;
+  }
+
+  .image img {
+    position: absolute;
+    top: 10%;
+    right: 10%;
+    max-width: 400px;
+  }
+  
+  @media (max-width: 768px) {
+
+    .bottom-section {
+     
+      margin-top: 30%;
+    }
+  
+    .content {
+      
+      position: relative;
+      margin-left: 20%;
+    }
+  
+    .dropdowns {
+      justify-content: center;
+    }
+  
+    .image img {
+      margin-top: 350px;
+      width: 100%;
+      position: absolute;
+      left: 10%;
+
+    }
+
+    .text {
+      width: 100%;
+      position: absolute;
+      align-items: center;
+      
+    }
+    .bottom-section {
+        top: 6450px;
+        height: auto;
+    }
+  }
+  
