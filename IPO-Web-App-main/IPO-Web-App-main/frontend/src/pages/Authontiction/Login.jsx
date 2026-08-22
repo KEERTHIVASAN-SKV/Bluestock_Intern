@@ -7,6 +7,7 @@ import { AuthContext } from '../../AuthProvider'
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [keepSignedIn, setKeepSignedIn] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -60,13 +61,15 @@ const Login = () => {
           </Label>
           <PasswordWrapper>
             <Input
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="••••••••••••••"
             />
-            <EyeIcon>👁</EyeIcon>
+            <EyeIcon onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? "👁" : "👁"}
+            </EyeIcon>
           </PasswordWrapper>
 
           <CheckboxWrapper>

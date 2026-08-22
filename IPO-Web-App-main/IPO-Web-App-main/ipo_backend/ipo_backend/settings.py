@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY')  # Required - copy from .env
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
@@ -47,6 +47,9 @@ INSTALLED_APPS = [
     'ipo',
 ]
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -102,7 +105,7 @@ DATABASES = {
         "ENGINE": config('DB_ENGINE', 'django.db.backends.postgresql'),
         "NAME": config('DB_NAME', 'ipo_db'),
         "USER": config('DB_USER', 'postgres'),
-        "PASSWORD": config('DB_PASSWORD', 'skvasan'),
+        "PASSWORD": config('DB_PASSWORD'),  # Required from .env
         "HOST": config('DB_HOST', 'localhost'),
         "PORT": config('DB_PORT', '5432'),
     }

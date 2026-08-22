@@ -111,6 +111,7 @@ const Input = styled.input`
   border: 1px solid rgba(208, 213, 221, 1);
   border-radius: 8px;
   background: white;
+  color: black;
 `;
 
 const ResetButton = styled.button`

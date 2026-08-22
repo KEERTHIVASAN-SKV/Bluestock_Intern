@@ -62,7 +62,6 @@ const Navbar = () => {
         </li>
 
         <li><a href="/Broker">Brokers</a></li>
-        <li><a href="#live-news">Live News <span className="badge">NEW</span></a></li>
       </ul>
       <div className="navbar-right">
         {isLoggedIn ? (
