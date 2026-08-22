@@ -273,7 +273,7 @@ cd D:\Intern\IPO-Web-App-main\IPO-Web-App-main
 python -m venv venv
 venv\Scripts\activate
 cd ipo_backend
-pip install -r requirement.txt
+python -m pip install -r requirement.txt
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
