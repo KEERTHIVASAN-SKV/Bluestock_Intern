@@ -83,7 +83,7 @@ Pick what you need:
 ```
 1. Open: QUICK_START.md
 2. Follow steps 1-3
-3. Open: http://127.0.0.1:3000
+3. Open: http://localhost:5173
 Done! ✅
 ```
 

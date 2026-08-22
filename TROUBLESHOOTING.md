@@ -37,7 +37,7 @@ python manage.py runserver 8001
 .\venv\Scripts\activate
 
 # Reinstall requirements
-python -m pip install -r requirement.txt
+python -m python -m pip install -r requirement.txt
 
 # Or install specific package
 pip install pandas nselib
@@ -97,7 +97,7 @@ python -m venv venv
 .\venv\Scripts\activate
 
 # Install requirements
-python -m pip install -r requirement.txt
+python -m python -m pip install -r requirement.txt
 ```
 
 ---
@@ -280,7 +280,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:3000",
+    "http://localhost:5173",
     "http://localhost:3000",
 ]
 ```
@@ -734,7 +734,7 @@ python manage.py shell
 Run this checklist to verify everything is working:
 
 - [ ] Backend running: `http://127.0.0.1:8000` (page loads)
-- [ ] Frontend running: `http://127.0.0.1:3000` (app loads)
+- [ ] Frontend running: `http://localhost:5173` (app loads)
 - [ ] Can signup new account: Go to `/signup`
 - [ ] Can login as admin: admin / Admin@123
 - [ ] Can view IPOs: Go to `/ipo`
@@ -772,7 +772,7 @@ Run this checklist to verify everything is working:
 4. **Verify basics**:
    - Is `.env` created? (copy from `.env.example`)
    - Is virtual environment activated? (`.\venv\Scripts\activate`)
-   - Are dependencies installed? (`python -m pip install -r requirement.txt`)
+   - Are dependencies installed? (`python -m python -m pip install -r requirement.txt`)
    - Is database migrated? (`python manage.py migrate`)
 
 ---

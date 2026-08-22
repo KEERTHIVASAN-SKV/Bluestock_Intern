@@ -38,7 +38,7 @@ DB_NAME=ipo_db.sqlite3
 
 ### 1.4 Install Dependencies
 ```bash
-python -m pip install -r requirement.txt
+python -m python -m pip install -r requirement.txt
 ```
 **Expected**: Takes 2-3 minutes, all packages installed
 
@@ -103,7 +103,7 @@ VITE v... ready in ... ms
 ## 🧪 Step 3: Test the Application (2 minutes)
 
 ### 3.1 Open Browser
-Open: `http://127.0.0.1:3000`
+Open: `http://localhost:5173`
 
 ### 3.2 Test Signup (First Time Users)
 1. Click "Sign Up Now"
@@ -142,7 +142,7 @@ Open: `http://127.0.0.1:3000`
 
 | Page | URL | Access |
 |------|-----|--------|
-| Home | http://127.0.0.1:3000 | Public |
+| Home | http://localhost:5173 | Public |
 | Sign Up | http://localhost:5173/signup | Public |
 | Login | http://localhost:5173/login | Public |
 | IPO List | http://localhost:5173/ipo | Public |
@@ -211,7 +211,7 @@ python manage.py runserver
 ### "Module not found" error
 ```bash
 # Reinstall dependencies
-python -m pip install -r requirement.txt
+python -m python -m pip install -r requirement.txt
 ```
 
 ### Frontend won't start
@@ -272,7 +272,7 @@ VITE v4.0.0 ready in 234 ms
 
 After setup, verify:
 - [ ] Backend running on http://127.0.0.1:8000
-- [ ] Frontend running on http://127.0.0.1:3000
+- [ ] Frontend running on http://localhost:5173
 - [ ] Can access home page
 - [ ] Can signup new account
 - [ ] Can login as admin (admin/Admin@123)

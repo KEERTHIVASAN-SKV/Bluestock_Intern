@@ -87,7 +87,7 @@ QUICK START OPTIONS
 Option A: Setup Immediately (10 minutes)
 → Open: QUICK_START.md
 → Follow: 3 simple steps
-→ Result: App running at http://127.0.0.1:3000
+→ Result: App running at http://localhost:5173
 
 Option B: Understand Architecture First (30 minutes)
 → Read: README.md (5 min)

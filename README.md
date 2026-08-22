@@ -62,7 +62,7 @@ copy .env.example .env
 .\venv\Scripts\activate
 
 # Install dependencies
-python -m pip install -r requirement.txt
+python -m python -m pip install -r requirement.txt
 
 # Run migrations
 python manage.py migrate
@@ -86,7 +86,7 @@ npm run dev
 ```
 
 4. **Access Application**
-- Frontend: http://127.0.0.1:3000
+- Frontend: http://localhost:5173
 - Backend API: http://127.0.0.1:8000/api/v1/
 - Admin Panel: http://127.0.0.1:8000/admin/
 
@@ -334,7 +334,7 @@ VITE_API_URL=http://127.0.0.1:8000
 
 ### Common Issues
 - **Port already in use**: Change port or kill existing process
-- **Module not found**: Run `python -m pip install -r requirement.txt`
+- **Module not found**: Run `python -m python -m pip install -r requirement.txt`
 - **Database error**: Run `python manage.py migrate`
 - **CORS error**: Check backend CORS settings
 
