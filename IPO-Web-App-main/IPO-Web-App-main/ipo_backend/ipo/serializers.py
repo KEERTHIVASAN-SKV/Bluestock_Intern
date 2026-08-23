@@ -16,22 +16,28 @@ class IPOSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        company_data = validated_data.pop('company')
-
-        company = Company.objects.create(**company_data)
-
+        company_data = validated_data.pop('company', {})
+        
+        # Create or get company by name
+        company_name = company_data.get('company_name', 'Unknown Company')
+        company, created = Company.objects.get_or_create(
+            company_name=company_name,
+            defaults=company_data
+        )
+        
         # Create the IPO and associate it with the company
         ipo = IPO.objects.create(company=company, **validated_data)
-
         return ipo
 
     def update(self, instance, validated_data):
         company_data = validated_data.pop('company', None)
 
         if company_data:
-            # Update or create company if provided
-            instance.company.name = company_data.get('name', instance.company.name)
-            instance.company.save()
+            # Update existing company
+            company = instance.company
+            company.company_name = company_data.get('company_name', company.company_name)
+            company.company_logo = company_data.get('company_logo', company.company_logo)
+            company.save()
 
         # Update IPO instance with the rest of the validated data
         for attr, value in validated_data.items():
@@ -53,12 +59,29 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(write_only=True, required=False)
+    
     class Meta:
         model = User
-        fields = ['username', 'password']
+        fields = ['username', 'email', 'password', 'name']
+        extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
+        # Extract 'name' field if provided (not part of User model)
+        name = validated_data.pop('name', None)
+        
+        # Create user with username, email, and password
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
+        )
+        
+        # Set first_name to 'name' if provided
+        if name:
+            user.first_name = name
+            user.save()
+        
         return user
 
 

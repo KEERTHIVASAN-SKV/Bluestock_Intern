@@ -1,11 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FiSearch, FiMenu } from "react-icons/fi";
 import { AiOutlineUser } from "react-icons/ai";
 import styled from "styled-components";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../AuthProvider";
 
 const RegisterIpo = () => {
+  const navigate = useNavigate();
+  const { isLoggedIn } = useContext(AuthContext);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Check if user is logged in and is admin
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      alert("You must be logged in as admin to register IPOs");
+      navigate('/login');
+      return;
+    }
+    // For now, assume anyone with a token is admin
+    // In production, decode JWT to verify is_staff
+    setIsAdmin(true);
+  }, [navigate]);
 
   // State for form inputs
   const [companyName, setCompanyName] = useState("");
@@ -33,75 +51,94 @@ const RegisterIpo = () => {
 
   const fetchIpos = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/ipos");
+      const response = await axios.get("http://127.0.0.1:8000/api/v1/ipos/", {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      });
       setIpos(response.data);
     } catch (error) {
       console.error("Error fetching IPOs:", error);
+      alert("Error fetching IPOs. Please log in again.");
     }
   };
 
   // Handle form submission (Create or Update IPO)
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    const formData = new FormData();
-    formData.append("companyName", companyName);
-    formData.append("openDate", openDate);
-    formData.append("closeDate", closeDate);
-    formData.append("issueSize", issueSize);
-    formData.append("issueType", issueType);
-    formData.append("listingDate", listingDate);
-    formData.append("status", status);
-    formData.append("ipoPrice", ipoPrice);
-    formData.append("listingPrice", listingPrice);
-    formData.append("listingGain", listingGain);
-    formData.append("cmp", cmp);
-    formData.append("currentReturn", currentReturn);
-    if (logo) {
-      formData.append("logo", logo); // Append the logo file
-    }
-  
-    // Log the FormData
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
-  
+
+    // Build request object matching Django serializer format
+    const ipoData = {
+      company: {
+        company_name: companyName,
+        company_logo: logoUrl || ""
+      },
+      price_band: issueSize, // price_band in Django
+      open_date: openDate,
+      close_date: closeDate,
+      issue_size: issueSize,
+      issue_type: issueType,
+      listing_date: listingDate,
+      status: status,
+      ipo_price: parseFloat(ipoPrice) || 0,
+      listing_price: parseFloat(listingPrice) || 0,
+      listing_gain: parseFloat(listingGain) || 0,
+      current_market_price: parseFloat(cmp) || 0,
+      current_return: parseFloat(currentReturn) || 0
+    };
+
     try {
       if (selectedIpoId) {
         // Update existing IPO
         const response = await axios.put(
-          `http://localhost:5000/api/ipos/${selectedIpoId}`,
-          formData,
+          `http://127.0.0.1:8000/api/v1/ipos/${selectedIpoId}/`,
+          ipoData,
           {
-            headers: { "Content-Type": "multipart/form-data" },
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+            }
           }
         );
         console.log("IPO updated:", response.data);
+        alert("IPO updated successfully!");
       } else {
         // Create new IPO
         const response = await axios.post(
-          "http://localhost:5000/api/ipos",
-          formData,
+          "http://127.0.0.1:8000/api/v1/ipos/",
+          ipoData,
           {
-            headers: { "Content-Type": "multipart/form-data" },
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+            }
           }
         );
         console.log("IPO created:", response.data);
+        alert("IPO created successfully!");
       }
       fetchIpos(); // Refresh IPO list
       resetForm(); // Clear form fields
     } catch (error) {
       console.error("Error saving IPO:", error);
+      alert("Error saving IPO. Make sure you're logged in as admin.");
     }
   };
 
   // Handle IPO deletion
   const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this IPO?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/ipos/${id}`);
+      await axios.delete(`http://127.0.0.1:8000/api/v1/ipos/${id}/`, {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      });
       fetchIpos(); // Refresh IPO list
+      alert("IPO deleted successfully");
     } catch (error) {
       console.error("Error deleting IPO:", error);
+      alert("Error deleting IPO. You must be admin.");
     }
   };
 
@@ -126,20 +163,20 @@ const RegisterIpo = () => {
 
   // Populate form fields for editing
   const handleEdit = (ipo) => {
-    setCompanyName(ipo.companyName);
-    setOpenDate(ipo.openDate);
-    setCloseDate(ipo.closeDate);
-    setIssueSize(ipo.issueSize);
-    setIssueType(ipo.issueType);
-    setListingDate(ipo.listingDate);
-    setStatus(ipo.status);
-    setIpoPrice(ipo.ipoPrice);
-    setListingPrice(ipo.listingPrice);
-    setListingGain(ipo.listingGain);
-    setCmp(ipo.cmp);
-    setCurrentReturn(ipo.currentReturn);
-    setSelectedIpoId(ipo._id);
-    setLogoUrl(ipo.logoUrl); // Set logo URL
+    setCompanyName(ipo.company.company_name || "");
+    setOpenDate(ipo.open_date || "");
+    setCloseDate(ipo.close_date || "");
+    setIssueSize(ipo.issue_size || "");
+    setIssueType(ipo.issue_type || "Select");
+    setListingDate(ipo.listing_date || "");
+    setStatus(ipo.status || "Select");
+    setIpoPrice(ipo.ipo_price || "");
+    setListingPrice(ipo.listing_price || "");
+    setListingGain(ipo.listing_gain || "");
+    setCmp(ipo.current_market_price || "");
+    setCurrentReturn(ipo.current_return || "");
+    setSelectedIpoId(ipo.id);
+    setLogoUrl(ipo.company.company_logo || "");
   };
 
   // Handle logo file change
@@ -375,12 +412,12 @@ const RegisterIpo = () => {
         </FormSection>
 
         {/* Display IPO List */}
-        <div style={{ marginTop: "20px" }}>
-          <h2>IPO List</h2>
+        <div style={{ marginTop: "20px", color: "black" }}>
+          <h2 style={{ color: "black" }}>IPO List</h2>
           <ul>
             {ipos.map((ipo) => (
-              <li key={ipo._id} style={{ marginBottom: "10px" }}>
-                <strong>{ipo.companyName}</strong> - {ipo.status}
+              <li key={ipo.id} style={{ marginBottom: "10px", color: "black" }}>
+                <strong>{ipo.company.company_name}</strong> - {ipo.status}
                 <Button
                   style={{ marginLeft: "10px" }}
                   onClick={() => handleEdit(ipo)}
@@ -389,7 +426,7 @@ const RegisterIpo = () => {
                 </Button>
                 <Button
                   style={{ marginLeft: "10px" }}
-                  onClick={() => handleDelete(ipo._id)}
+                  onClick={() => handleDelete(ipo.id)}
                 >
                   Delete
                 </Button>
@@ -513,6 +550,7 @@ const SearchBar = styled.div`
     outline: none;
     background: none;
     margin-left: 10px;
+    color: black;
   }
 `;
 
@@ -520,15 +558,27 @@ const UserProfile = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
+  color: black;
 `;
 
 const FormSection = styled.section`
   padding: 20px;
   background: #fff;
+
+  h2, h3 {
+    color: black;
+  }
 `;
 
 const FormGroup = styled.div`
   margin-bottom: 15px;
+
+  label {
+    display: block;
+    color: black;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
 `;
 
 const FormGroupGrid = styled.div`
@@ -539,6 +589,13 @@ const FormGroupGrid = styled.div`
   div {
     flex: 1;
     min-width: 150px;
+
+    label {
+      display: block;
+      color: black;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
   }
 
   @media (max-width: 768px) {
@@ -551,6 +608,7 @@ const Input = styled.input`
   border-radius: 4px;
   border: 1px solid #ccc;
   width: 100%;
+  color: black;
 `;
 
 const Select = styled.select`
@@ -558,6 +616,8 @@ const Select = styled.select`
   border-radius: 4px;
   border: 1px solid #ccc;
   width: 100%;
+  color: black;
+  background-color: white;
 `;
 
 const ButtonGroup = styled.div`
@@ -583,4 +643,9 @@ const CompanyLogo = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  label {
+    color: black;
+    cursor: pointer;
+  }
 `;

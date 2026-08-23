@@ -104,7 +104,7 @@ cd ipo_backend
 
 ### Step 5: Install Dependencies
 ```bash
-pip install -r requirement.txt
+python -m python -m pip install -r requirement.txt
 ```
 
 ### Step 6: Apply Migrations (CREATES TABLES)
@@ -203,7 +203,7 @@ venv\Scripts\activate
 cd ipo_backend
 
 # 6. Install dependencies
-pip install -r requirement.txt
+python -m python -m pip install -r requirement.txt
 
 # 7. CREATE ALL TABLES (DO THIS!)
 python manage.py migrate

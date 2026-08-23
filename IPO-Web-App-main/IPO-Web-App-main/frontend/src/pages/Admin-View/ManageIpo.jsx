@@ -7,6 +7,7 @@ import styled, { keyframes } from "styled-components";
 
 const ManageIpo = () => {
   const [user, setUser] = useState({ name: "Guest" }); // Default user data
+  const [isAdmin, setIsAdmin] = useState(false); // Track if user is admin
 
   const [ipoList, setIpoList] = useState([]);
 
@@ -21,6 +22,14 @@ const ManageIpo = () => {
     };
 
     fetchIpos();
+    
+    // Check if user is admin from localStorage or token
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      // Try to decode JWT to check if user is staff
+      // For now, assume admin if logged in - can improve with JWT decoding
+      setIsAdmin(true);
+    }
   }, []);
 
 
@@ -39,11 +48,18 @@ const ManageIpo = () => {
   }, []);
 
   const deleteIPO = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this IPO?")) return;
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/v1/ipos/${id}/`);
+      await axios.delete(`http://127.0.0.1:8000/api/v1/ipos/${id}/`, {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      });
       setIpoList((prev) => prev.filter((ipo) => ipo.id !== id));
+      alert("IPO deleted successfully");
     } catch (error) {
       console.error("Error deleting IPO:", error);
+      alert("Error deleting IPO. Permission denied.");
     }
   };
 
@@ -122,11 +138,14 @@ const ManageIpo = () => {
                   <Status className={ipo.status?.toLowerCase()}>{ipo.status}</Status>
                 </td>
                 <td>
-                  <BsTrash
-                    className="delete"
-                    onClick={() => deleteIPO(ipo.id)}
-                    style={{ cursor: "pointer", color: "#dc3545"}}
-                  />
+                  {isAdmin && (
+                    <BsTrash
+                      className="delete"
+                      onClick={() => deleteIPO(ipo.id)}
+                      style={{ cursor: "pointer", color: "#dc3545"}}
+                      title="Delete IPO"
+                    />
+                  )}
                   <AddButton style={{marginLeft:'40px'}}>
                     <a href="/registeripo" style={{color:'black'}}>Add</a>
                   </AddButton>

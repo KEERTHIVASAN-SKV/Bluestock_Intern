@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated, BasePermission
 from rest_framework import generics
 from django.shortcuts import render
 import pandas as pd
@@ -13,6 +13,23 @@ from rest_framework import status
 from django.core.cache import cache  # To cache and avoid hitting API rate limits
 from datetime import datetime, timedelta
 from nselib import capital_market
+
+
+# Custom Permission: Allow public GET, require admin for POST/PUT/PATCH/DELETE
+class IsAdminOrReadOnly(BasePermission):
+    """
+    Allow any access to safe methods (GET, HEAD, OPTIONS).
+    Require admin/staff user for POST, PUT, PATCH, DELETE.
+    """
+    def has_permission(self, request, view):
+        # Allow any GET request (public read)
+        if request.method in ['GET', 'HEAD', 'OPTIONS']:
+            return True
+        # For write operations, require authentication
+        if not request.user or not request.user.is_authenticated:
+            return False
+        # Require staff/admin for write operations
+        return request.user.is_staff
 
 
 
@@ -36,11 +53,13 @@ def home(request):
 class CompanyViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class IPOViewSet(viewsets.ModelViewSet):
     queryset = IPO.objects.all()
     serializer_class = IPOSerializer
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['status', 'issue_type']
     search_fields = ['company__company_name']
@@ -49,17 +68,20 @@ class IPOViewSet(viewsets.ModelViewSet):
 class DocumentViewSet(viewsets.ModelViewSet):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
+    permission_classes = [IsAdminOrReadOnly]
     filterset_fields = ['ipo']
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 
 
@@ -152,6 +174,7 @@ class MarketMoverData(APIView):
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [AllowAny]  # Allow anyone to sign up
 
 
 
