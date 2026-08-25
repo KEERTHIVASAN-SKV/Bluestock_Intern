@@ -38,11 +38,11 @@ const RegisterIpo = () => {
   const [listingGain, setListingGain] = useState("");
   const [cmp, setCmp] = useState("");
   const [currentReturn, setCurrentReturn] = useState("");
-  const [logo, setLogo] = useState(null); // State for logo file
-  const [logoUrl, setLogoUrl] = useState(""); // State for logo URL
+  const [logo, setLogo] = useState(null);
+  const [logoUrl, setLogoUrl] = useState("");
 
-  const [ipos, setIpos] = useState([]); // State to store IPO data
-  const [selectedIpoId, setSelectedIpoId] = useState(null); // State to track selected IPO for update/delete
+  const [ipos, setIpos] = useState([]);
+  const [selectedIpoId, setSelectedIpoId] = useState(null);
 
   // Fetch IPO data from the backend
   useEffect(() => {
@@ -67,18 +67,24 @@ const RegisterIpo = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate required fields
+    if (!companyName || !openDate || !closeDate || !issueSize || status === "Select" || issueType === "Select") {
+      alert("Please fill in all required fields");
+      return;
+    }
+
     // Build request object matching Django serializer format
     const ipoData = {
       company: {
         company_name: companyName,
         company_logo: logoUrl || ""
       },
-      price_band: issueSize, // price_band in Django
+      price_band: issueSize,
       open_date: openDate,
       close_date: closeDate,
       issue_size: issueSize,
       issue_type: issueType,
-      listing_date: listingDate,
+      listing_date: listingDate || "2099-12-31",
       status: status,
       ipo_price: parseFloat(ipoPrice) || 0,
       listing_price: parseFloat(listingPrice) || 0,
@@ -88,6 +94,13 @@ const RegisterIpo = () => {
     };
 
     try {
+      const token = localStorage.getItem('accessToken');
+      if (!token) {
+        alert("You are not logged in. Please login again.");
+        navigate('/login');
+        return;
+      }
+
       if (selectedIpoId) {
         // Update existing IPO
         const response = await axios.put(
@@ -96,7 +109,7 @@ const RegisterIpo = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+              "Authorization": `Bearer ${token}`
             }
           }
         );
@@ -110,18 +123,18 @@ const RegisterIpo = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+              "Authorization": `Bearer ${token}`
             }
           }
         );
         console.log("IPO created:", response.data);
         alert("IPO created successfully!");
       }
-      fetchIpos(); // Refresh IPO list
-      resetForm(); // Clear form fields
+      fetchIpos();
+      resetForm();
     } catch (error) {
-      console.error("Error saving IPO:", error);
-      alert("Error saving IPO. Make sure you're logged in as admin.");
+      console.error("Error saving IPO:", error.response?.data || error.message);
+      alert(`Error saving IPO: ${error.response?.data?.detail || error.message}`);
     }
   };
 
@@ -134,7 +147,7 @@ const RegisterIpo = () => {
           "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
         }
       });
-      fetchIpos(); // Refresh IPO list
+      fetchIpos();
       alert("IPO deleted successfully");
     } catch (error) {
       console.error("Error deleting IPO:", error);
@@ -156,8 +169,8 @@ const RegisterIpo = () => {
     setListingGain("");
     setCmp("");
     setCurrentReturn("");
-    setLogo(null); // Reset logo
-    setLogoUrl(""); // Reset logo URL
+    setLogo(null);
+    setLogoUrl("");
     setSelectedIpoId(null);
   };
 
@@ -184,7 +197,7 @@ const RegisterIpo = () => {
     const file = e.target.files[0];
     if (file) {
       setLogo(file);
-      setLogoUrl(URL.createObjectURL(file)); // Preview the uploaded logo
+      setLogoUrl(URL.createObjectURL(file));
     }
   };
 
@@ -195,10 +208,11 @@ const RegisterIpo = () => {
         <Logo>Bluestock Fintech</Logo>
         <Menu>
           <MenuItem>
-          <a href="/dashboard">Dashboard</a></MenuItem>
-          <MenuItem >
-          <a href="/manageipo">Manage IPO</a>
-        </MenuItem>
+            <a href="/dashboard">Dashboard</a>
+          </MenuItem>
+          <MenuItem>
+            <a href="/manageipo">Manage IPO</a>
+          </MenuItem>
           <MenuItem>IPO Subscription</MenuItem>
           <MenuItem>IPO Allotment</MenuItem>
         </Menu>
@@ -228,212 +242,228 @@ const RegisterIpo = () => {
           </UserProfile>
         </Header>
 
-        <FormSection>
-          <h2>Enter IPO Details</h2>
+        <ContentWrapper>
+          <FormSection>
+            <h2>Enter IPO Details</h2>
 
-          <form onSubmit={handleSubmit}>
-            <FormGroup>
-              <label>Company Logo</label>
-              <CompanyLogo>
-                <img
-                  src={logoUrl || "logo-placeholder.png"}
-                  alt="Company Logo"
-                />
-                <div>
-                  <input
-                    type="file"
-                    id="logo-upload"
-                    style={{ display: "none" }}
-                    onChange={handleLogoChange}
+            <form onSubmit={handleSubmit}>
+              <FormGroup>
+                <label>Company Logo</label>
+                <CompanyLogo>
+                  <img
+                    src={logoUrl || "logo-placeholder.png"}
+                    alt="Company Logo"
                   />
-                  <label htmlFor="logo-upload" className="upload">
-                    Upload Logo
-                  </label>
-                  <Button className="delete" onClick={() => setLogo(null)}>
-                    Delete
-                  </Button>
+                  <div>
+                    <input
+                      type="file"
+                      id="logo-upload"
+                      style={{ display: "none" }}
+                      onChange={handleLogoChange}
+                    />
+                    <label htmlFor="logo-upload" className="upload">
+                      Upload Logo
+                    </label>
+                    <Button className="delete" onClick={() => setLogo(null)}>
+                      Delete
+                    </Button>
+                  </div>
+                </CompanyLogo>
+              </FormGroup>
+
+              <FormGroup>
+                <label>Company Name</label>
+                <Input
+                  type="text"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  required
+                />
+              </FormGroup>
+
+              <FormGroupGrid>
+                <div>
+                  <label>Open</label>
+                  <Input
+                    type="text"
+                    value={openDate}
+                    onChange={(e) => setOpenDate(e.target.value)}
+                    required
+                  />
                 </div>
-              </CompanyLogo>
-            </FormGroup>
+                <div>
+                  <label>Close</label>
+                  <Input
+                    type="text"
+                    value={closeDate}
+                    onChange={(e) => setCloseDate(e.target.value)}
+                    required
+                  />
+                </div>
+              </FormGroupGrid>
 
-            <FormGroup>
-              <label>Company Name</label>
-              <Input
-                type="text"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-                required
-              />
-            </FormGroup>
+              <FormGroupGrid>
+                <div>
+                  <label>Issue Size</label>
+                  <Input
+                    type="text"
+                    value={issueSize}
+                    onChange={(e) => setIssueSize(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label>Issue Type</label>
+                  <Select
+                    value={issueType}
+                    onChange={(e) => setIssueType(e.target.value)}
+                    required
+                  >
+                    <option>Select</option>
+                    <option>Book Built</option>
+                    <option>Fixed Price</option>
+                  </Select>
+                </div>
+              </FormGroupGrid>
 
-            <FormGroupGrid>
-              <div>
-                <label>Open</label>
-                <Input
-                  type="text"
-                  value={openDate}
-                  onChange={(e) => setOpenDate(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>Close</label>
-                <Input
-                  type="text"
-                  value={closeDate}
-                  onChange={(e) => setCloseDate(e.target.value)}
-                  required
-                />
-              </div>
-            </FormGroupGrid>
+              <FormGroupGrid>
+                <div>
+                  <label>Listing Date</label>
+                  <Input
+                    type="text"
+                    value={listingDate}
+                    onChange={(e) => setListingDate(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label>Status</label>
+                  <Select
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    required
+                  >
+                    <option>Select</option>
+                    <option>Upcoming</option>
+                    <option>Open</option>
+                    <option>Closed</option>
+                    <option>Listed</option>
+                  </Select>
+                </div>
+              </FormGroupGrid>
 
-            <FormGroupGrid>
-              <div>
-                <label>Issue Size</label>
-                <Input
-                  type="text"
-                  value={issueSize}
-                  onChange={(e) => setIssueSize(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>Issue Type</label>
-                <Select
-                  value={issueType}
-                  onChange={(e) => setIssueType(e.target.value)}
-                  required
-                >
-                  <option>Select</option>
-                  <option>Book Built</option>
-                  <option>Fixed Price</option>
-                </Select>
-              </div>
-            </FormGroupGrid>
+              <h3>New Listed IPO Details (When IPO Gets Listed)</h3>
+              <FormGroupGrid>
+                <div>
+                  <label>IPO Price</label>
+                  <Input
+                    type="text"
+                    value={ipoPrice}
+                    onChange={(e) => setIpoPrice(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label>Listing Price</label>
+                  <Input
+                    type="text"
+                    value={listingPrice}
+                    onChange={(e) => setListingPrice(e.target.value)}
+                    required
+                  />
+                </div>
+              </FormGroupGrid>
 
-            <FormGroupGrid>
-              <div>
-                <label>Listing Date</label>
-                <Input
-                  type="text"
-                  value={listingDate}
-                  onChange={(e) => setListingDate(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>Status</label>
-                <Select
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
-                  required
-                >
-                  <option>Select</option>
-                  <option>Ongoing</option>
-                  <option>Upcoming</option>
-                  <option>Completed</option>
-                </Select>
-              </div>
-            </FormGroupGrid>
+              <FormGroupGrid>
+                <div>
+                  <label>Listing Gain</label>
+                  <Input
+                    type="text"
+                    value={listingGain}
+                    onChange={(e) => setListingGain(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label>Listing Date</label>
+                  <Input
+                    type="text"
+                    value={listingDate}
+                    onChange={(e) => setListingDate(e.target.value)}
+                    required
+                  />
+                </div>
+              </FormGroupGrid>
 
-            <h3>New Listed IPO Details (When IPO Gets Listed)</h3>
-            <FormGroupGrid>
-              <div>
-                <label>IPO Price</label>
-                <Input
-                  type="text"
-                  value={ipoPrice}
-                  onChange={(e) => setIpoPrice(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>Listing Price</label>
-                <Input
-                  type="text"
-                  value={listingPrice}
-                  onChange={(e) => setListingPrice(e.target.value)}
-                  required
-                />
-              </div>
-            </FormGroupGrid>
+              <FormGroupGrid>
+                <div>
+                  <label>CMP</label>
+                  <Input
+                    type="text"
+                    value={cmp}
+                    onChange={(e) => setCmp(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <label>Current Return</label>
+                  <Input
+                    type="text"
+                    value={currentReturn}
+                    onChange={(e) => setCurrentReturn(e.target.value)}
+                    required
+                  />
+                </div>
+              </FormGroupGrid>
 
-            <FormGroupGrid>
-              <div>
-                <label>Listing Gain</label>
-                <Input
-                  type="text"
-                  value={listingGain}
-                  onChange={(e) => setListingGain(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>Listing Date</label>
-                <Input
-                  type="text"
-                  value={listingDate}
-                  onChange={(e) => setListingDate(e.target.value)}
-                  required
-                />
-              </div>
-            </FormGroupGrid>
-
-            <FormGroupGrid>
-              <div>
-                <label>CMP</label>
-                <Input
-                  type="text"
-                  value={cmp}
-                  onChange={(e) => setCmp(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label>Current Return</label>
-                <Input
-                  type="text"
-                  value={currentReturn}
-                  onChange={(e) => setCurrentReturn(e.target.value)}
-                  required
-                />
-              </div>
-            </FormGroupGrid>
-
-            <ButtonGroup>
-              <Button type="submit" className="register">
-                {selectedIpoId ? "Update" : "Register"}
-              </Button>
-              <Button type="button" className="cancel" onClick={resetForm}>
-                Cancel
-              </Button>
-            </ButtonGroup>
-          </form>
-        </FormSection>
-
-        {/* Display IPO List */}
-        <div style={{ marginTop: "20px", color: "black" }}>
-          <h2 style={{ color: "black" }}>IPO List</h2>
-          <ul>
-            {ipos.map((ipo) => (
-              <li key={ipo.id} style={{ marginBottom: "10px", color: "black" }}>
-                <strong>{ipo.company.company_name}</strong> - {ipo.status}
-                <Button
-                  style={{ marginLeft: "10px" }}
-                  onClick={() => handleEdit(ipo)}
-                >
-                  Edit
+              <ButtonGroup>
+                <Button type="submit" className="register">
+                  {selectedIpoId ? "Update" : "Register"}
                 </Button>
-                <Button
-                  style={{ marginLeft: "10px" }}
-                  onClick={() => handleDelete(ipo.id)}
-                >
-                  Delete
+                <Button type="button" className="cancel" onClick={resetForm}>
+                  Cancel
                 </Button>
-              </li>
-            ))}
-          </ul>
-        </div>
+              </ButtonGroup>
+            </form>
+          </FormSection>
+
+          {/* Display IPO List */}
+          <ListSection>
+            <h2>IPO List</h2>
+            <ListContainer>
+              {ipos.length === 0 ? (
+                <EmptyState>No IPOs found. Create a new one to get started.</EmptyState>
+              ) : (
+                <ul>
+                  {ipos.map((ipo) => (
+                    <ListItem key={ipo.id}>
+                      <ListItemContent>
+                        <CompanyInfo>
+                          <strong>{ipo.company.company_name}</strong>
+                          <StatusLabel>{ipo.status}</StatusLabel>
+                        </CompanyInfo>
+                      </ListItemContent>
+                      <ListItemActions>
+                        <Button
+                          onClick={() => handleEdit(ipo)}
+                          className="edit"
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          onClick={() => handleDelete(ipo.id)}
+                          className="delete"
+                        >
+                          Delete
+                        </Button>
+                      </ListItemActions>
+                    </ListItem>
+                  ))}
+                </ul>
+              )}
+            </ListContainer>
+          </ListSection>
+        </ContentWrapper>
       </MainContent>
     </Container>
   );
@@ -457,6 +487,8 @@ const Sidebar = styled.aside`
   transition: left 0.3s ease;
   z-index: 1000;
   margin-top: 70px;
+  overflow-y: auto;
+  
   &.open {
     left: 0;
   }
@@ -464,6 +496,7 @@ const Sidebar = styled.aside`
   @media (min-width: 768px) {
     position: static;
     left: 0;
+    margin-top: 0;
   }
 `;
 
@@ -486,16 +519,25 @@ const Logo = styled.div`
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 20px;
+  color: #1a1a1a;
 `;
 
 const Menu = styled.ul`
   list-style: none;
   padding: 0;
+  margin: 0;
 `;
 
 const MenuItem = styled.li`
-  padding: 10px;
+  padding: 12px;
   cursor: pointer;
+  color: #1a1a1a;
+  
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
   &:hover,
   &.active {
     background: #ddd;
@@ -509,10 +551,12 @@ const OtherMenu = styled.div`
 
 const MainContent = styled.main`
   flex: 1;
-  padding: 20px;
-  background: #fff;
+  padding: 0;
+  background: #f5f5f5;
   transition: margin-left 0.3s ease;
   margin-left: 0;
+  overflow-y: auto;
+  max-height: 100vh;
 
   @media (min-width: 768px) {
     margin-left: 250px;
@@ -523,7 +567,12 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  padding: 15px 30px;
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 `;
 
 const MenuButton = styled.button`
@@ -532,6 +581,7 @@ const MenuButton = styled.button`
   border: none;
   font-size: 24px;
   cursor: pointer;
+  color: #1a1a1a;
 
   @media (min-width: 768px) {
     display: none;
@@ -542,110 +592,333 @@ const SearchBar = styled.div`
   display: flex;
   align-items: center;
   background: #eee;
-  padding: 5px 10px;
+  padding: 8px 15px;
   border-radius: 4px;
+  flex: 1;
+  margin: 0 20px;
+
+  .search-icon {
+    color: #999;
+  }
 
   input {
     border: none;
     outline: none;
     background: none;
     margin-left: 10px;
-    color: black;
+    color: #333;
+    font-size: 14px;
+    width: 100%;
+    
+    &::placeholder {
+      color: #999;
+    }
   }
 `;
 
 const UserProfile = styled.div`
   display: flex;
   align-items: center;
-  gap: 5px;
-  color: black;
+  gap: 8px;
+  color: #1a1a1a;
+  font-weight: 500;
+`;
+
+const ContentWrapper = styled.div`
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 15px;
 `;
 
 const FormSection = styled.section`
-  padding: 20px;
-  background: #fff;
+  background: white;
+  border-radius: 8px;
+  padding: 30px;
+  margin: 30px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 
-  h2, h3 {
-    color: black;
+  h2 {
+    color: #1a1a1a;
+    font-size: 24px;
+    margin: 0 0 25px 0;
+  }
+  
+  h3 {
+    color: #1a1a1a;
+    font-size: 18px;
+    margin: 30px 0 15px 0;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 `;
 
 const FormGroup = styled.div`
-  margin-bottom: 15px;
+  margin-bottom: 0;
 
   label {
     display: block;
-    color: black;
-    font-weight: 500;
-    margin-bottom: 5px;
+    color: #1a1a1a;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 14px;
   }
 `;
 
 const FormGroupGrid = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 20px;
+  margin-bottom: 0;
 
   div {
     flex: 1;
-    min-width: 150px;
+    min-width: 220px;
 
     label {
       display: block;
-      color: black;
-      font-weight: 500;
-      margin-bottom: 5px;
+      color: #1a1a1a;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 14px;
     }
   }
 
   @media (max-width: 768px) {
     flex-direction: column;
+    gap: 15px;
+    
+    div {
+      min-width: 100%;
+    }
   }
 `;
 
 const Input = styled.input`
-  padding: 8px;
+  padding: 10px 12px;
   border-radius: 4px;
   border: 1px solid #ccc;
   width: 100%;
-  color: black;
+  color: #333;
+  font-size: 14px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  
+  &::placeholder {
+    color: #999;
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: #685DFF;
+    box-shadow: 0 0 0 2px rgba(104, 93, 255, 0.1);
+  }
 `;
 
 const Select = styled.select`
-  padding: 8px;
+  padding: 10px 12px;
   border-radius: 4px;
   border: 1px solid #ccc;
   width: 100%;
-  color: black;
-  background-color: white;
+  color: #333;
+  background-color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+  box-sizing: border-box;
+  
+  option {
+    color: #333;
+    background-color: white;
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: #685DFF;
+    box-shadow: 0 0 0 2px rgba(104, 93, 255, 0.1);
+  }
 `;
 
 const ButtonGroup = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 15px;
+  margin-top: 10px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
 `;
 
 const Button = styled.button`
-  padding: 10px;
+  padding: 12px 24px;
   border: none;
+  border-radius: 4px;
   cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  
   &.register {
     background: #28a745;
     color: white;
+    flex: 1;
+    
+    &:hover {
+      background: #218838;
+    }
   }
+  
   &.cancel {
     background: #dc3545;
     color: white;
+    flex: 1;
+    
+    &:hover {
+      background: #c82333;
+    }
+  }
+
+  &.edit {
+    background: #007bff;
+    color: white;
+    padding: 8px 16px;
+    font-size: 12px;
+    
+    &:hover {
+      background: #0056b3;
+    }
+  }
+
+  &.delete {
+    background: #dc3545;
+    color: white;
+    padding: 8px 16px;
+    font-size: 12px;
+    
+    &:hover {
+      background: #c82333;
+    }
   }
 `;
 
 const CompanyLogo = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 20px;
+
+  img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
 
   label {
-    color: black;
+    color: #685DFF;
     cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    
+    &:hover {
+      text-decoration: underline;
+    }
   }
+`;
+
+const ListSection = styled.section`
+  background: white;
+  border-radius: 8px;
+  padding: 30px;
+  margin: 30px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  h2 {
+    color: #1a1a1a;
+    font-size: 24px;
+    margin: 0 0 20px 0;
+  }
+`;
+
+const ListContainer = styled.div`
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+`;
+
+const ListItem = styled.li`
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  border-left: 4px solid #685DFF;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+
+  &:hover {
+    background: #f5f5f5;
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
+
+const ListItemContent = styled.div`
+  flex: 1;
+`;
+
+const CompanyInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  strong {
+    color: #1a1a1a;
+    font-size: 16px;
+  }
+`;
+
+const StatusLabel = styled.span`
+  background: #685DFF;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+`;
+
+const ListItemActions = styled.div`
+  display: flex;
+  gap: 8px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    
+    button {
+      flex: 1;
+    }
+  }
+`;
+
+const EmptyState = styled.div`
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+  font-size: 16px;
 `;
