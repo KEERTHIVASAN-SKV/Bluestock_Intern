@@ -1,11 +1,13 @@
 .blog-container {
   font-family: Arial, sans-serif;
-  width: 1554px;
+  width: 100%;
+  max-width: 1554px;
   margin: auto;
   text-align: center;
   margin-top: 10px;
-  padding-left: 120px;
-  padding-right: 120px;
+  padding-left: 5%;
+  padding-right: 5%;
+  box-sizing: border-box;
 }
 
 .breadcrumb {
@@ -61,11 +63,12 @@ h1 {
 }
 
 .blog-image {
-  height: 412px;
-  width: 472px;
+  height: 260px;
+  width: 100%;
 
   background: rgba(111, 79, 240, 1);
   border-bottom: 2px solid #ddd;
+  box-sizing: border-box;
 }
 
 .blog-content {

@@ -71,19 +71,16 @@ const Review = () => {
 const css = `
   .reviewSection {
     text-align: center;
-    padding: 40px 20px;
+    padding: 60px 20px;
     position: relative;
-    top: 3800px;
     overflow: hidden;
   }
 
   .heading {
-    font-size: 36px;
+    font-size: clamp(24px, 3.5vw, 36px);
     font-weight: 600;
     color: black;
     margin-bottom: 20px;
-    padding-left:80px;
-    
     text-shadow: 0px 0px 10px rgba(94, 172, 255, 0.7);
   }
 
@@ -163,10 +160,6 @@ const css = `
   }
 
   @media (max-width: 768px) {
-    .reviewSection {
-      top: 4600px;
-    }
-
     .reviewCard {
       height: 180px;
       width: 200px;
@@ -187,7 +180,6 @@ const css = `
     }
 
     .heading {
-      font-size: 1.5rem;
       margin-bottom: 15px;
     }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import "./Analysis.css"; // Import the CSS file
+import "./analysis.css"; // Import the CSS file
 
 const stockData = new Array(30).fill({
   company: "Apple",

@@ -110,6 +110,7 @@ const ManageIpo = () => {
           </UserProfile>
         </Header>
         <Title>Upcoming IPO | Dashboard</Title>
+        <TableScroll>
         <Table>
           <thead>
             <tr>
@@ -155,6 +156,7 @@ const ManageIpo = () => {
           </tbody>
 
         </Table>
+        </TableScroll>
       </MainContent>
     </Container>
   );
@@ -186,9 +188,11 @@ const slideIn = keyframes`
 // Styled Components
 const Container = styled.div`
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
+  width: 100%;
   background: #f8f9fa;
   padding-top:60px;
+  overflow-x: hidden;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -253,8 +257,11 @@ const MenuItem = styled.li`
 
 const MainContent = styled.main`
   flex: 1;
+  min-width: 0;
   padding: 20px;
   margin-top: 60px;
+  box-sizing: border-box;
+  overflow-x: auto;
   animation: ${fadeIn} 0.5s ease-in-out;
 
   @media (max-width: 768px) {
@@ -268,8 +275,11 @@ const Header = styled.header`
   justify-content: space-between;
   padding-bottom: 20px;
   padding-top:50px;
-  width:625px;
-  height:32px;
+  width: 100%;
+  max-width: 625px;
+  height: auto;
+  min-height: 32px;
+  box-sizing: border-box;
 
   color:rgba(98, 123, 135, 1);
 
@@ -284,8 +294,10 @@ const SearchWrapper = styled.div`
   align-items: center;
   background: white;
   padding: 8px;
-  width:500px;
+  width: 100%;
+  max-width: 500px;
   height:32px;
+  box-sizing: border-box;
 
   
   border-radius: 5px;
@@ -330,12 +342,17 @@ const Title = styled.h2`
   }
 `;
 
+const TableScroll = styled.div`
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+`;
+
 const Table = styled.table`
   width: 100%;
+  min-width: 700px;
   background: white;
   border-radius: 5px;
-  overflow: hidden;
-  overflow-x: auto;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-collapse: collapse;
 

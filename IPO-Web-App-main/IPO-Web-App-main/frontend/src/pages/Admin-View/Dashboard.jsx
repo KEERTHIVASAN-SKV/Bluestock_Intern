@@ -174,10 +174,11 @@ const bounce = keyframes`
 // Styled Components
 const Container = styled.div`
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
+  width: 100%;
   background: #f9f9f9;
   padding-top: 30px;
-  
+  overflow-x: hidden;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -256,8 +257,11 @@ const MenuItem = styled.li`
 
 const MainContent = styled.main`
   flex: 1;
+  min-width: 0;
   padding: 20px;
   margin-top: 60px;
+  box-sizing: border-box;
+  overflow-x: auto;
 
   @media (max-width: 768px) {
     margin-top: 20px;
@@ -309,8 +313,9 @@ const UserProfile = styled.div`
 
 const DashboardSection = styled.section`
   background: #fff;
-  width: 1300px;
-  // height:321px;
+  width: 100%;
+  max-width: 1300px;
+  box-sizing: border-box;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

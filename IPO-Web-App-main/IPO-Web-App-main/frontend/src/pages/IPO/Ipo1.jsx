@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./ipo1.css";
+import "./Ipo1.css";
 
 const IPO1 = () => {
   const [ipoList, setIpoList] = useState([]);

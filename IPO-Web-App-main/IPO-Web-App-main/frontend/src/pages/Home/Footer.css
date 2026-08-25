@@ -2,9 +2,9 @@
     background: #f8f9fc;
      font-family: Arial, sans-serif;
     color: #333;
-    position: absolute;
-    top: 6300px;
-    width: 99%;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 60px;
   }
   
   .footer-container {
@@ -93,9 +93,10 @@
   
   .footer-info img {
     width: 200px;
-    
+    max-width: 100%;
+    height: auto;
     margin-top: 5px;
-    padding-right: 40px;
+    padding-right: 0;
   }
   
   .footer-disclaimer {
@@ -146,10 +147,7 @@
       flex-direction: column;
       text-align: center;
     }
-  
-     .footer {
-        top: 7350px;
-     }
+
     .footer-middle {
       flex-direction: column;
       text-align: center;
@@ -172,10 +170,3 @@
     }
   }
   
-
-  
-  @media (max-width: 600px) {  
-    .footer {
-      margin-top: -200px;
-    } 
-  }

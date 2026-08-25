@@ -65,11 +65,7 @@ const Navbar = () => {
       </ul>
       <div className="navbar-right">
         {isLoggedIn ? (
-          <>
-            {/* <Button text='Dashboard' class="btn-info" url="/dashboard" />
-            &nbsp; */}
-            <button className='btn' onClick={handleLogout} style={{backgroundColor:'red', color:'white'}}>Logout</button>
-          </>
+          <button className='btn' onClick={handleLogout} style={{backgroundColor:'red', color:'white'}}>Logout</button>
         ) : (
           <>
             <a href="/login" className="signin">Sign In</a>
@@ -80,12 +76,11 @@ const Navbar = () => {
             >
               <a className="signup-btn1" href="/signup">Sign Up Now</a>
             </motion.button>
-            <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
-              &#9776;
-            </div>
           </>
-        )
-        }
+        )}
+        <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
+          &#9776;
+        </div>
       </div>
 
     </motion.nav >

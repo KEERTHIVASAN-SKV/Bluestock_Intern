@@ -1,204 +1,239 @@
 .about-container {
     font-family: Arial, sans-serif;
-    width: 100%;
-    margin: 1%;
-    margin-top: 10%;
-   
-  } 
+    width: 95%;
+    max-width: 1400px;
+    margin: 60px auto 0;
+    box-sizing: border-box;
+    text-align: center;
+}
 
-  .heading-2{
-    font-size: 44px;
-    font-weight: 500;
-    font-style: bold;
-    padding-top: 70px;
-    padding-left: 110px;
-    color: rgba(255, 255, 255, 1);
-  }
-
-
-
-
-  .para-2{
-    font-weight: 500;
-    font-size: 24px;
-    font-style: poppins;
-    color: rgba(255, 255, 255, 1);
-    height: 216px;
-    width: 980px;
-    padding-top: 5px;
-    padding-left: 110px;
-    text-align: start;
-    
-  }
-
-  .freq-1{
-    width: fixed(1440px);
-    height: fixed(925px);
-    gap: 8px;
-    padding-top: 100px;
-    padding-bottom: 100px;
-  }
-
-  .traders-talk{
-    word-spacing: 20px;
-    letter-spacing: 10px;
-    padding-top: 90px;
-    font-size: 20px;
-    font-weight: 600;
-    color: rgba(106, 117, 130, 1);
-  }
-
-
-  .container-big{
-    width: 1478px;
-    height: 614px;
-    font-family: poppins;
-    font-weight: 600;
-    font-size: 32px;
-
-  }
-
-  .home-about {
+.home-about {
    text-align: start;
    font-size: 16px;
    color: #4a90e2;
-   font-style: poppins;
    font-weight: 500;
    padding-top: 40px;
-  }
-  
-  .intro-section {
-    text-align: center;
-    margin-bottom: 40px;
-  }
-  
-  .intro-section h2 {
-    font-size: 2rem;
-    color: #1a1a1a;
-  }
-  
-  .intro-section p {
-    font-size: 1rem;
-    color: #555;
-    margin-top: 10px;
-  }
-  
-  .stats-section {
+}
+
+.about-heading {
+    font-size: clamp(22px, 3.2vw, 35px);
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: rgba(61, 61, 61, 1);
+    max-width: 727px;
+    text-align: start;
+    padding-left: 0;
+    padding-top: 40px;
+}
+
+.about-description {
+    font-size: clamp(15px, 1.6vw, 20px);
+    margin-bottom: 20px;
+    line-height: 1.5;
+    max-width: 654px;
+    color: rgba(102, 115, 132, 1);
+    text-align: start;
+    font-weight: 600;
+}
+
+.stats-container {
     display: flex;
-    justify-content: space-around;
-    text-align: center;
-    margin: 40px 0;
-  }
-  
-  .stat-box {
-    background-color: #4a90e2;
+    justify-content: flex-start;
+    gap: 30px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-top: 40px;
+}
+
+.stat-card {
+    background: rgba(99, 133, 255, 1);
     color: white;
     padding: 20px;
-    border-radius: 10px;
-    flex: 1;
-    margin: 10px;
-  }
-  
-  .news-section {
+    border-radius: 15px;
     text-align: center;
-    margin-top: 40px;
-  }
-  
-  .news-section h3 {
-    font-size: 1rem;
-    color: #888;
-  }
-  
-  .news-section h2 {
-    font-size: 1.5rem;
-    color: #1a1a1a;
-  }
-  
-  .news-articles {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    flex: 1 1 220px;
+    max-width: 300px;
+}
+
+.stat-number {
+    font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 600;
+    color: rgba(255, 255, 255, 1);
+    margin: 0 0 10px;
+}
+
+.stat-label {
+    font-size: clamp(18px, 2vw, 28px);
+    color: rgba(255,255,255,0.9);
+    line-height: 1.2;
+    margin: 0;
+}
+
+.container-big {
+  width: 100%;
+  font-weight: 600;
+  font-size: clamp(20px, 2.5vw, 32px);
+  margin-top: 40px;
+}
+
+.traders-talk {
+  word-spacing: 10px;
+  letter-spacing: 6px;
+  padding-top: 40px;
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(106, 117, 130, 1);
+}
+
+.about-subheading {
+    font-size: clamp(28px, 5vw, 56px);
+    font-weight: 400;
+    margin: 20px 0;
+    color: rgba(0, 0, 0, 1);
+    line-height: 1.2;
+}
+
+.news-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     gap: 15px;
-    margin-top: 20px;
     flex-wrap: wrap;
-  }
-  
-  .news-item {
-    background: #f5f5f5;
+}
+
+.news-card {
+    background: rgba(243, 245, 255, 0.9);
     padding: 15px;
     border-radius: 10px;
-    width: 30%;
-    text-align: left;
-  }
-  
-  .news-button {
-    background-color: #4a90e2;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-top: 20px;
-  }
-  
-  .join-us-section {
-    background-color: #4a90e2;
-    color: white;
-    padding: 40px;
+    width: 100%;
+    max-width: 380px;
+    flex: 1 1 260px;
     text-align: center;
-    border-radius: 10px;
-    margin-top: 40px;
-  }
-  
-  .apply-button {
-    background-color: white;
-    color: #4a90e2;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-top: 20px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.news-title {
     font-weight: bold;
-  }
-  
-  .faq-section {
-    margin-top: 40px;
+    margin-bottom: 5px;
+    color: rgba(200, 62, 75, 1);
+}
+
+.about-link {
+    display: block;
+    margin-top: 10px;
+    color: #5b6efc;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.join-us-container {
+    background: rgba(99, 133, 255, 1);
+    color: white;
+    padding: 40px 20px;
+    border-radius: 40px;
     text-align: center;
-  }
-  
-  .faq-section h2 {
-    font-size: 1.5rem;
-    color: #1a1a1a;
-  }
-  
-  .faq-item {
-    background: #f5f5f5;
-    padding: 15px;
-    border-radius: 10px;
-    margin: 10px auto;
-    width: 80%;
+    width: 100%;
+    max-width: 1400px;
+    margin: 40px auto 0;
+    box-sizing: border-box;
+}
+
+.heading-2 {
+    font-size: clamp(24px, 3.5vw, 44px);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    margin: 0 0 20px;
+}
+
+.para-2 {
+    font-weight: 500;
+    font-size: clamp(15px, 1.8vw, 24px);
+    color: rgba(255, 255, 255, 1);
+    max-width: 700px;
+    margin: 0 auto 16px;
+    text-align: center;
+}
+
+.about-email {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.button-1 {
+    background: rgba(82, 51, 172, 1);
+    color: rgba(255, 255, 255, 1);
+    padding: 10px 24px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-top: 12px;
+    font-weight: 600;
+}
+
+.freq-1 {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+.faq-container {
+    margin: 20px auto;
     text-align: left;
-    font-weight: bold;
+    max-width: 770px;
+}
+
+.faq-item {
+    margin-bottom: 12px;
+    padding: 14px;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 2px solid rgba(211, 211, 211, 1);
+}
+
+.faq-question {
+    font-weight: 700;
+    font-size: clamp(16px, 2vw, 22px);
+    line-height: 1.3;
+    color: rgba(0, 0, 0, 1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.faq-answer {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+@media (max-width: 900px) {
+  .about-heading,
+  .about-description {
+    max-width: 100%;
   }
-  
-  @media screen and (max-width: 768px) {
-    .stats-section {
-      flex-direction: column;
-    }
-  
-    .news-articles {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .news-item {
-      width: 90%;
-    }
-  
-    .faq-item {
-      width: 100%;
-    }
+}
+
+@media (max-width: 768px) {
     .about-container {
-        margin-top: 100px;
+        margin-top: 30px;
     }
-  }
-  
+
+    .about-heading,
+    .about-description {
+      text-align: center;
+      padding-left: 0;
+    }
+
+    .stats-container {
+      justify-content: center;
+      padding-top: 20px;
+    }
+
+    .join-us-container {
+        border-radius: 24px;
+    }
+}
