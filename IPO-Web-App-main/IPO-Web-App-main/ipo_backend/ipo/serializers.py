@@ -64,7 +64,23 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'email', 'password', 'name']
-        extra_kwargs = {'password': {'write_only': True}}
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'username': {'required': True},
+            'email': {'required': True}
+        }
+
+    def validate_username(self, value):
+        """Validate that username is unique"""
+        if User.objects.filter(username=value).exists():
+            raise serializers.ValidationError("This username is already taken.")
+        return value
+
+    def validate_email(self, value):
+        """Validate that email is unique"""
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("This email is already registered.")
+        return value
 
     def create(self, validated_data):
         # Extract 'name' field if provided (not part of User model)

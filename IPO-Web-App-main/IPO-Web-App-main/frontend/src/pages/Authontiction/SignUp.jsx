@@ -20,6 +20,11 @@ const SignUp = () => {
       return;
     }
 
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+
     if (!isRobotChecked) {
       setError("Please verify that you are not a robot.");
       return;
@@ -38,17 +43,31 @@ const SignUp = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Signup failed.");
+        // Handle different error types
+        if (data.username) {
+          throw new Error(Array.isArray(data.username) ? data.username[0] : data.username);
+        } else if (data.email) {
+          throw new Error(Array.isArray(data.email) ? data.email[0] : data.email);
+        } else if (data.password) {
+          throw new Error(Array.isArray(data.password) ? data.password[0] : data.password);
+        } else if (data.message) {
+          throw new Error(data.message);
+        } else if (typeof data === 'object' && Object.keys(data).length > 0) {
+          const firstKey = Object.keys(data)[0];
+          const firstValue = data[firstKey];
+          throw new Error(Array.isArray(firstValue) ? firstValue[0] : firstValue);
+        } else {
+          throw new Error("Signup failed.");
+        }
       }
 
-      setSuccess("Signup successful! Please log in.");
-      setName("");
-      setUsername("");
-      setEmail("");
-      setPassword("");
-      setIsRobotChecked(false);
+      setSuccess("Signup successful! Please log in with your credentials.");
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000);
     } catch (error) {
-      setError(error.message);
+      setError(error.message || "An error occurred during signup.");
+      console.error("Signup error:", error);
     }
   };
 
