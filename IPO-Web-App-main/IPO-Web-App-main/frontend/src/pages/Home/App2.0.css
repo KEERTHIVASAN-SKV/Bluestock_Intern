@@ -1,17 +1,17 @@
 .app-container {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   width: 100%;
+  box-sizing: border-box;
   background-color: none;
-  position: absolute;
-  top: 11%;
-  /* height: 671px; */
+  position: relative;
+  padding: 60px 0;
   animation: fadeIn 1s ease-in-out;
   background: url("https://bluestock.in/assets/img/hero-bg.png");
   background-size: cover;
   background-position: center;
   animation: backgroundMove 10s linear infinite alternate;
-  top: 200px;
 }
 
 @keyframes backgroundMove {
@@ -37,10 +37,11 @@
 .content {
   display: flex;
   flex-direction: column;
-  max-width: 50%;
-  width: 50%;
+  flex: 1 1 480px;
+  max-width: 605px;
+  width: 100%;
   margin-left: 5%;
-  height: 651px;
+  box-sizing: border-box;
   animation: slideInLeft 1s ease-in-out;
 }
 
@@ -97,10 +98,10 @@
 
 .title {
   font-weight: 700;
-  line-height: 100%;
-  width: 605px;
-  font-size: 51px;
-  font-weight: 700;
+  line-height: 1.15;
+  width: 100%;
+  max-width: 605px;
+  font-size: clamp(28px, 4.5vw, 51px);
   letter-spacing: 0%;
   color:rgba(0, 0, 0, 1);
   animation: fadeIn 1s ease-in-out;
@@ -112,20 +113,18 @@
 
 .description {
   color: rgba(154, 154, 154, 1);
-  font-size: 21px;
+  font-size: clamp(15px, 1.6vw, 21px);
   font-weight: 500;
   animation: slideInRight 1s ease-in-out;
   text-align: start;
-  /* width: 541px;
-  height: 64px; */
-  padding-top: px;
+  padding-top: 12px;
 }
 
 .get{
   font-size: 15px;
   font-weight: 600;
   color: rgba(0, 0, 0, 1);
-  padding-bottom: px;
+  padding-bottom: 4px;
 }
 
 @keyframes slideInRight {
@@ -153,10 +152,12 @@
 
 .early-access input {
   padding: 10px;
-  width: 200px;
+  width: 100%;
+  max-width: 200px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   transition: all 0.3s ease-in-out;
+  box-sizing: border-box;
 }
 
 .early-access input:focus {
@@ -180,12 +181,15 @@
 }
 
 .image-placeholder {
+  flex: 1 1 320px;
   width: 40%;
+  max-width: 550px;
   height: 550px;
   background-color: #eef2ff;
   position: relative;
   border-radius: 10px;
   margin-right: 5%;
+  box-sizing: border-box;
   animation: float 4s ease-in-out infinite;
 }
 
@@ -224,14 +228,15 @@
     flex-direction: column;
     height: auto;
     text-align: center;
+    padding: 40px 16px;
   }
 
   .content {
     max-width: 100%;
+    width: 100%;
     margin: 0;
     height: auto;
     text-align: center;
-    margin-right: 100px;
   }
 
   .badge-container {
@@ -241,7 +246,7 @@
   .title {
     font-size: 2rem;
     line-height: 2.5rem;
-    margin-right: 50px;
+    width: 100%;
   }
 
   .description {
@@ -256,6 +261,7 @@
 
   .early-access input {
     width: 100%;
+    max-width: 100%;
   }
 
   .send-btn {
@@ -264,9 +270,10 @@
   }
 
   .image-placeholder {
-    width: 98%;
-    margin-top: 20px;
-    margin-left: 40px;
+    width: 100%;
+    max-width: 100%;
+    height: 320px;
+    margin: 20px 0 0;
   }
 
   .tooltip {

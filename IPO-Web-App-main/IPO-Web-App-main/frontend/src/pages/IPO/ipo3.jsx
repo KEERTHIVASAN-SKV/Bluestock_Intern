@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import "./Ipo3.css";
+import "./ipo3.css";
 
 const Ipo3 = () => {
   const [ipos, setIpos] = useState([]);

@@ -1,13 +1,16 @@
 .broker-details-container {
   margin-top: 6%;
-  width: 1700px;
+  width: 100%;
+  max-width: 1700px;
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
-  top: 449px;
-  padding-left: 80px;
+  box-sizing: border-box;
+  padding: 0 5%;
 }
 
 .page-title {
-  font-size: 96px;
+  font-size: clamp(32px, 6vw, 72px);
   font-weight: 600;
   color: #6a5acd;
   text-align: start;
@@ -40,11 +43,10 @@
 }
 
 .broker-info {
-  flex: 5;
-  width: 1700px;
-  height: 569px;
-  /* display: flex; */
-  /* text-align: left; */
+  flex: 5 1 400px;
+  width: 100%;
+  max-width: 1700px;
+  height: auto;
 }
 
 .broker-info h2 {
@@ -115,19 +117,19 @@
 
 .broker-services,
 .broker-charges {
-  flex: 0;
+  flex: 1 1 220px;
   text-align: start;
   padding: 10px;
-  padding-left: 100px;
+  padding-left: 5%;
   gap: 50px;
-  /* width: 405px;
-  height: 181px;   */
+  box-sizing: border-box;
 }
 
 .broker-services p,
 .broker-charges p {
   margin: 5px 0;
-  width: 205px;
+  width: 100%;
+  max-width: 205px;
   padding-top: 40px;
 }
 

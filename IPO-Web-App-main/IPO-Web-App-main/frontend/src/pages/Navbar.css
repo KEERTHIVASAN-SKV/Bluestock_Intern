@@ -4,11 +4,13 @@
     justify-content: space-between;
     background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    position: absolute;
-    width: 99.5%;
-    height: 75px;
+    position: sticky;
+    width: 100%;
     top: 0;
-    padding-top: 20px;
+    z-index: 1000;
+    padding: 12px 24px;
+    box-sizing: border-box;
+    flex-wrap: wrap;
   }
   .product {
     color: black;
@@ -20,27 +22,27 @@
 .navbar-left {
     display: flex;
     align-items: center;
-    padding-left: 60px;
+    gap: 8px;
     color: rgba(154, 154, 154, 1);
   }
   
   .brand {
-    font-style: sans;
-    font-style: bold;
-    font-size: 45px;
+    font-style: normal;
+    font-size: clamp(22px, 3vw, 32px);
     color: rgba(30, 30, 30, 1);
     text-decoration: none;
     font-weight: 700;
-    width: 263px;
-    height: 68px;
-
+    height: auto;
+    white-space: nowrap;
   }
   
   .nav-links {
     list-style: none;
     display: flex;
     gap: 20px;
-    padding-left: 90px;
+    padding-left: 24px;
+    margin: 0;
+    flex-wrap: wrap;
   }
   
   .nav-links li {
@@ -108,10 +110,10 @@
     color: red;
   }
   .logo {
-    width: 132x;
-    height: 100px;
-    margin-right: 10px;
-    padding-bottom: 15px;
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    margin-right: 4px;
   }
 
 .dropdown {
@@ -148,24 +150,68 @@
   }
   
   
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
+    .navbar {
+      padding: 10px 16px;
+    }
+
     .nav-links {
       display: none;
       flex-direction: column;
       position: absolute;
-      top: 60px;
+      top: 100%;
       left: 0;
-      background: rgb(185, 185, 185);
+      background: #ffffff;
       width: 100%;
       text-align: center;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 12px 0;
+      gap: 4px;
+      z-index: 999;
     }
-  
+
+    .nav-links li {
+      padding: 8px 0;
+    }
+
     .nav-links.open {
       display: flex;
     }
-  
+
     .menu-icon {
       display: block;
+      order: 3;
+    }
+
+    .navbar-right {
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .dropdown-menu {
+      position: static;
+      align-items: center;
+      border: none;
+      box-shadow: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .brand {
+      font-size: 18px;
+    }
+
+    .navbar-right {
+      gap: 6px;
+    }
+
+    .signin {
+      font-size: 13px;
+    }
+
+    .signup-btn {
+      padding: 6px 10px;
+      font-size: 12px;
     }
   }

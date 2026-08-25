@@ -1,60 +1,55 @@
 .second-page {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   background-color: white;
-  width: 1514px;
-  height: 307px;
-  top: 950px;
-  position: absolute;
-  height: auto;
- 
-  flex-direction: row;
-  width: 1514px;
-  height: 307px;
-  
-
+  width: 100%;
+  max-width: 1514px;
+  margin: 40px auto;
+  padding: 0 5%;
+  box-sizing: border-box;
+  gap: 24px;
 }
 
 .left-section {
-  width: 356px;
-  height: 313px;
-  margin-left: 10%;
-  margin-top: 10px;
-
+  width: 100%;
+  max-width: 356px;
+  flex: 1 1 300px;
 }
 
 .subtitle {
   color: rgba(154, 154, 154, 1);
-  width: 292px;
-  height: 36px;
+  width: 100%;
+  max-width: 292px;
   font-weight: 500;
   font-size: 24px;
   text-align: start;
 }
 
 .highlight-text {
-  font-size:10px;
-  
   font-weight: bold;
   text-align: start;
 }
 
+.highlight-text h1 {
+  font-size: clamp(32px, 4vw, 48px);
+  margin: 4px 0;
+}
+
 .purple {
   color: rgba(173, 0, 255, 1);
-  /* font-size: 64px; */
 }
 
 .bold {
   font-weight: bold;
-  /* font-size: 64px; */
   color: rgba(0, 0, 0, 1);
 }
 
 .right-section {
-  text-align: right;
+  flex: 1 1 260px;
   max-width: 50%;
-  margin-right: 10%;
+  margin-right: 0;
   text-align: center;
 }
 
@@ -66,7 +61,8 @@
   font-size: 20px;
   color: black;
   line-height: 1.5;
-  max-width: 200px;
+  max-width: 260px;
+  margin: 0 auto;
   font-weight: 100;
 }
 
@@ -75,25 +71,18 @@
       flex-direction: column;
       height: auto;
       text-align: center;
-      top: 1220px;
-     
-      
-    
+      padding: 0 20px;
   }
 
   .left-section, .right-section {
       max-width: 100%;
+      width: 100%;
       margin: 0;
   }
 
-  .highlight-text {
+  .highlight-text h1 {
       font-size: 1.8rem;
       line-height: 2rem;
-      
-  }
-
-  .purple, .bold {
-      font-size: 2rem;
   }
 
   .emoji {
@@ -103,7 +92,8 @@
 
   .description {
       font-size: 1rem;
-      line-height: 1.4rem;     
-      margin-right: 150px;
+      line-height: 1.4rem;
+      max-width: 100%;
+      margin-right: 0;
   }
 }

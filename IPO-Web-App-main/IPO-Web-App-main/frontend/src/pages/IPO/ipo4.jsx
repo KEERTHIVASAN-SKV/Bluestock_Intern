@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Ipo4.css";
+import "./ipo4.css";
 
 const faqs = [
   {

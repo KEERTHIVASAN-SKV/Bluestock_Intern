@@ -1,41 +1,36 @@
 .community-container {
   font-family: Arial, sans-serif;
-  margin: 5%;
-
-  width: 100%;
-  margin-top: 10%;
+  width: 90%;
+  max-width: 1400px;
+  margin: 60px auto 0;
+  box-sizing: border-box;
 }
 
 .hero-section {
-  width: 1065px;
-  height: 463px;
-  top: 278px;
-  left: 428px;
+  width: 100%;
+  max-width: 1065px;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
-  align-items: start;
-  /* justify-content: space-between; */
+  align-items: flex-start;
   text-align: start;
-  gap: 220px;
+  gap: 60px;
   padding-top: 50px;
 }
 
 .hero-text {
-  flex: 1;
+  flex: 1 1 380px;
   max-width: 600px;
-
-  height: 300px;
-  padding-left: 280px;
-
 }
 
 .hero-text h2 {
-  font-size: 40px;
+  font-size: clamp(26px, 3.5vw, 40px);
   color: rgba(42, 57, 78, 1);
   font-weight: 700;
-  line-height: 100%;
+  line-height: 1.15;
   text-align: start;
-  width: 428px;
+  width: 100%;
+  max-width: 428px;
 }
 
 .hero-text p {
@@ -43,7 +38,8 @@
   color: #555;
   font-weight: 400;
   text-align: start;
-  width: 428px;
+  width: 100%;
+  max-width: 428px;
 }
 
 .join-button {
@@ -56,20 +52,22 @@
   font-weight: 600;
 }
 
+.chat-preview {
+  flex: 1 1 300px;
+  display: flex;
+  justify-content: center;
+}
+
 .chat-preview img {
-  position: absolute;
-  height: 400px;
-  width: 400px;
-  align-items: end;
-  padding-left: px;
+  position: relative;
+  height: auto;
+  width: 100%;
+  max-width: 400px;
 }
 
 .club-right {
   display:flex;
   gap: 20px;
-  /* align-items: flex-end; */
-  /* flex: 1;
-  justify-content: center; */
   flex-wrap: wrap;
   min-width: 300px;
 }
@@ -96,36 +94,44 @@
 .trading-club {
   text-align: start;
   margin-top: 40px;
-  width: 1299px;
-  height: 354px;
-  left: 377px;
-  padding-left: 280px;
+  width: 100%;
+  max-width: 1299px;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
+  flex-wrap: wrap;
   gap: 50px;
 }
 
 .trading-club h3 {
-  font-size: 32px;
+  font-size: clamp(24px, 3vw, 32px);
   font-weight: 700;
-  line-height: 100%;
+  line-height: 1.2;
   color: rgba(42, 57, 78, 1);
   text-align: start;
-  width: 355px;
-  height: 96px;
+  width: 100%;
+  max-width: 355px;
+  flex: 1 1 280px;
+}
+
+.benefits {
+  flex: 1 1 260px;
 }
 
 .benefits p {
   font-size: 15px;
   color: rgba(0, 0, 0, 1);
   font-weight: 300;
-  line-height: 100%;
+  line-height: 1.4;
   text-align: start;
 
-  width: 277px;
+  width: 100%;
+  max-width: 277px;
 }
 
 .club-features {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 15px;
   margin-top: 20px;
@@ -143,11 +149,11 @@
   text-align: center;
   margin-top: 40px;
   display: flex;
-  padding-left: 250px;
+  justify-content: center;
 }
 
 .blue h3 {
-  font-size: 36px;
+  font-size: clamp(26px, 3vw, 36px);
   font-weight: 700;
   color: rgba(42, 57, 78, 1);
   text-align: center;
@@ -155,28 +161,27 @@
 
 .blue p {
   font-size: 15px;
-  /* width: 287px; */
   text-align: center;
-  padding-left: 0px;
 }
 
-.chat-box{
-  padding-left: 150px;
+.chat-box {
+  display: flex;
+  justify-content: center;
 }
 
 .chat-box img {
   max-width: 100%;
+  height: auto;
 }
 
 .experts-section {
   text-align: center;
   margin-top: 40px;
-  padding-left: px;
-  padding-right: 20px;
+  padding: 0 20px;
 }
 
 .experts-section h3 {
-  font-size: 32px;
+  font-size: clamp(24px, 3vw, 32px);
   font-weight: 700;
   color: rgba(42, 57, 78, 1);
 }
@@ -204,21 +209,31 @@
     max-width: 100%;
   }
 
+  .hero-text h2,
+  .hero-text p {
+    max-width: 100%;
+    text-align: center;
+  }
+
   .club-features {
     flex-direction: column;
     margin-top: 10%;
+    align-items: center;
   }
 
   .trading-club {
-    position: relative;
+    flex-direction: column;
+    text-align: center;
     margin-top: 10%;
+  }
+
+  .trading-club h3,
+  .benefits p {
+    max-width: 100%;
+    text-align: center;
   }
 
   .chat-preview {
-    margin-top: 10%;
-  }
-
-  .club-features {
     margin-top: 10%;
   }
 
