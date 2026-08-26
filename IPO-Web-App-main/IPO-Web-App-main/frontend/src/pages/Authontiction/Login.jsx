@@ -38,10 +38,15 @@ const Login = () => {
   };
 
   return (
-    <div style={{
-      alignItems: "center",
-      paddingLeft: "700px",
-    }}>
+    <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "flex-start",
+      width: "100%",
+      paddingTop: "100px",
+    }}
+  >
       <Container>
         <Form onSubmit={handleLogin}>
           <Logo src="https://bluestock.in/static/assets/logo/logo.jpg" alt="Bluestock Logo" />
@@ -110,13 +115,9 @@ export default Login;
 // Styled Components
 const Container = styled.div`
   width: 350px;
-  height : 400px;
   max-width: 400px;
-  margin: auto;
   text-align: center;
   font-family: Arial, sans-serif;
-  padding: 20px;
-  item-align: center ;
 `;
 
 const Logo = styled.img`
@@ -142,6 +143,7 @@ const Label = styled.label`
 
 const Input = styled.input`
   width: 100%;
+  box-sizing: border-box;
   padding: 10px;
   margin-top: 5px;
   border: 1px solid #ccc;
@@ -185,9 +187,10 @@ const Checkbox = styled.input`
 
 const LoginButton = styled.button`
   width: 100%;
+  box-sizing: border-box;
   padding: 10px;
   background: rgba(104, 92, 255, 1);
-  color: rgba(255, 255, 255, 1);
+  color: white;
   border: none;
   border-radius: 4px;
   font-size: 16px;
