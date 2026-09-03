@@ -62,7 +62,7 @@ copy .env.example .env
 .\venv\Scripts\activate
 
 # Install dependencies
-python -m python -m pip install -r requirement.txt
+python -m pip install -r requirement.txt
 
 # Run migrations
 python manage.py migrate
