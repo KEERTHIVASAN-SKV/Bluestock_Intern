@@ -77,7 +77,7 @@ cd ipo_backend
 
 ### 7. Install Dependencies
 ```bash
-python -m python -m python -m pip install -r requirement.txt
+python -m pip install -r requirement.txt
 ```
 
 ### 8. Apply Migrations

@@ -37,7 +37,7 @@ python manage.py runserver 8001
 .\venv\Scripts\activate
 
 # Reinstall requirements
-python -m python -m pip install -r requirement.txt
+python -m pip install -r requirement.txt
 
 # Or install specific package
 pip install pandas nselib
@@ -97,7 +97,7 @@ python -m venv venv
 .\venv\Scripts\activate
 
 # Install requirements
-python -m python -m pip install -r requirement.txt
+python -m pip install -r requirement.txt
 ```
 
 ---
@@ -106,15 +106,15 @@ python -m python -m pip install -r requirement.txt
 
 #### Frontend Won't Start
 
-**Error**: `Port 3000 already in use`
+**Error**: `Port 5173 already in use`
 
 **Solution**:
 ```bash
 # Use different port
-npm run dev -- --port 3001
+npm run dev -- --port 5174
 
-# Or kill process on 3000
-netstat -ano | findstr :3000
+# Or kill process on 5173
+netstat -ano | findstr :5173
 taskkill /PID <PID> /F
 npm run dev
 ```
@@ -772,10 +772,10 @@ Run this checklist to verify everything is working:
 4. **Verify basics**:
    - Is `.env` created? (copy from `.env.example`)
    - Is virtual environment activated? (`.\venv\Scripts\activate`)
-   - Are dependencies installed? (`python -m python -m pip install -r requirement.txt`)
+   - Are dependencies installed? (`pip install -r requirements.txt`)
    - Is database migrated? (`python manage.py migrate`)
 
 ---
 
-**Last Updated**: August 22, 2026
+**Last Updated**: September 5, 2026
 **Status**: All issues fixed and verified

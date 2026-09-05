@@ -41,7 +41,7 @@
 ### Prerequisites
 - Python 3.8+
 - Node.js 14+
-- SQLite (or MySQL/PostgreSQL)
+- PostgreSQL 17+ (production default; SQLite supported for dev)
 - Virtual environment (recommended)
 
 ### Installation (5 minutes)
@@ -135,7 +135,7 @@ IPO-Web-App-main/
 - **Django** - Python web framework
 - **Django REST Framework** - REST API
 - **Django JWT** - Token-based authentication
-- **SQLite** - Database (configurable)
+- **PostgreSQL** - Primary database (SQLite supported for development)
 - **nselib** - NSE data integration
 - **pandas** - Data processing
 
@@ -171,7 +171,7 @@ All API responses follow standard JSON format:
     "company_name": "XYZ Ltd",
     "company_logo": "url"
   },
-  "status": "Upcoming",
+  "status": "Upcoming",   // Choices: Upcoming, Open, Closed, Listed
   "ipo_price": 100,
   "listing_price": 120
 }
@@ -294,23 +294,22 @@ http://127.0.0.1:8000/admin/  # Django admin
 
 ## ⚙️ Configuration
 
-### Backend (.env file)
+### Backend (.env file in `ipo_backend/ipo_backend/`)
 ```
-SECRET_KEY=your-secret-key
+SECRET_KEY=your-secret-key-here
 DEBUG=True
-DB_ENGINE=django.db.backends.sqlite3
-DB_NAME=ipo_db.sqlite3
-DB_USER=
-DB_PASSWORD=
-DB_HOST=
-DB_PORT=
-ALLOWED_HOSTS=127.0.0.1,localhost
+
+# PostgreSQL (default)
+DB_ENGINE=django.db.backends.postgresql
+DB_NAME=ipo_db
+DB_USER=postgres
+DB_PASSWORD=your_db_password
+DB_HOST=localhost
+DB_PORT=5432
 ```
 
-### Frontend (.env file in frontend/)
-```
-VITE_API_URL=http://127.0.0.1:8000
-```
+### Frontend (Vite dev server)
+- Runs on: `http://localhost:5173` (default Vite port)
 
 ---
 
@@ -319,7 +318,7 @@ VITE_API_URL=http://127.0.0.1:8000
 1. **Environment Variables**: Always use `.env` file for sensitive data
 2. **Admin Credentials**: Change default admin password in production
 3. **CORS**: Configure CORS for production domains
-4. **Database**: Use PostgreSQL for production (not SQLite)
+4. **Database**: PostgreSQL is already the configured database engine
 5. **Security**: Enable HTTPS in production
 6. **Debug Mode**: Set DEBUG=False in production
 
@@ -334,7 +333,7 @@ VITE_API_URL=http://127.0.0.1:8000
 
 ### Common Issues
 - **Port already in use**: Change port or kill existing process
-- **Module not found**: Run `python -m python -m pip install -r requirement.txt`
+- **Module not found**: Run `python -m pip install -r requirement.txt`
 - **Database error**: Run `python manage.py migrate`
 - **CORS error**: Check backend CORS settings
 
@@ -344,7 +343,7 @@ VITE_API_URL=http://127.0.0.1:8000
 
 1. Use production build for frontend: `npm run build`
 2. Enable caching in Django settings
-3. Use PostgreSQL instead of SQLite
+3. PostgreSQL is already configured — tune connection pooling for scale
 4. Enable compression in web server
 5. Use CDN for static files
 
@@ -376,8 +375,8 @@ Private project for BlueStock
 
 ---
 
-**Last Updated**: August 22, 2026
+**Last Updated**: September 5, 2026
 **Version**: 1.0 (Stable)
-**Status**: Production Ready
+**Status**: Active Development
 
 For detailed information, see the documentation files linked above.

@@ -4,10 +4,10 @@
 
 ### Current Setup (Development)
 ```
-Database Engine: SQLite3
-Database File: ipo_db.sqlite3
-Location: D:\Intern\IPO-Web-App-main\IPO-Web-App-main\ipo_backend\
-Configured in: .env (DB_ENGINE, DB_NAME)
+Database Engine: PostgreSQL 17.10
+Database Name: ipo_db
+Location: localhost:5432 (configured in .env)
+Configured in: ipo_backend/ipo_backend/.env
 ```
 
 ### Production Setup (Recommended)
@@ -49,27 +49,27 @@ Password: [Set in .env]
        │                                 │
        ▼                                 ▼
 ┌──────────────────────┐      ┌──────────────────────┐
-│   ipo_company        │      │   ipo_application    │
+│   ipo_company        │      │   applications       │
 ├──────────────────────┤      ├──────────────────────┤
 │ id (PK)              │      │ id (PK)              │
 │ company_name         │      │ user_id (FK)         │
 │ company_logo (URL)   │      │ ipo_id (FK)          │
-│ created_at           │      │ quantity             │
-│ updated_at           │      │ status               │
-└──────┬───────────────┘      │ applied_at           │
+│                      │      │ quantity (nullable)  │
+└──────┬───────────────┘      │ status (nullable)    │
        │                       └──────────────────────┘
        │ 1:Many
        │
        ▼
 ┌──────────────────────┐
-│   ipo_ipo            │
+│   ipos               │  (db_table='ipos')
 ├──────────────────────┤
 │ id (PK)              │
 │ company_id (FK)      │◄─── Links to Company
+│ price_band           │
 │ open_date            │
 │ close_date           │
 │ listing_date         │
-│ status               │
+│ status               │  Upcoming/Open/Closed/Listed
 │ ipo_price            │
 │ listing_price        │
 │ current_market_price │
@@ -77,22 +77,17 @@ Password: [Set in .env]
 │ issue_type           │
 │ current_return       │
 │ listing_gain         │
-│ created_at           │
-│ updated_at           │
 └──────┬───────────────┘
        │ 1:Many
        │
        ▼
 ┌──────────────────────┐
-│   ipo_document       │
+│   documents          │  (db_table='documents')
 ├──────────────────────┤
 │ id (PK)              │
 │ ipo_id (FK)          │◄─── Links to IPO
-│ document_name        │
-│ document_file        │
-│ document_type        │
-│ uploaded_at          │
-│ updated_at           │
+│ rhp_pdf (URL)        │  Red Herring Prospectus
+│ drhp_pdf (URL)       │  Draft Red Herring Prospectus
 └──────────────────────┘
 ```
 
@@ -140,9 +135,7 @@ Password: [Set in .env]
 |-------|------|-------------|-------------|
 | id | INTEGER | PRIMARY KEY, AUTO_INCREMENT | Company ID |
 | company_name | VARCHAR(255) | NOT NULL | Official company name |
-| company_logo | URLField | NULLABLE | URL to company logo |
-| created_at | DATETIME | AUTO_NOW_ADD | Record creation time |
-| updated_at | DATETIME | AUTO_NOW | Last update time |
+| company_logo | URLField(500) | NOT NULL | URL to company logo |
 
 **Relationships**: One company has many IPOs
 
@@ -166,20 +159,18 @@ Password: [Set in .env]
 |-------|------|-------------|-------------|
 | id | INTEGER | PRIMARY KEY, AUTO_INCREMENT | IPO ID |
 | company_id | INTEGER | FK (ipo_company), NOT NULL | Links to company |
+| price_band | VARCHAR(50) | NOT NULL | Price band range |
 | open_date | DATE | NOT NULL | IPO subscription open |
 | close_date | DATE | NOT NULL | IPO subscription close |
-| listing_date | DATE | NULLABLE | Stock listing date |
-| status | VARCHAR(50) | Choices: Upcoming/Ongoing/Completed | IPO status |
+| listing_date | DATE | NOT NULL | Stock listing date |
+| status | VARCHAR(20) | Choices: Upcoming/Open/Closed/Listed | IPO status |
 | ipo_price | DECIMAL(10,2) | NOT NULL | IPO issue price |
-| listing_price | DECIMAL(10,2) | NULLABLE | Opening price at listing |
-| current_market_price | DECIMAL(10,2) | NULLABLE | Current stock price |
-| issue_size | BIGINTEGER | NOT NULL | Total shares issued |
-| price_band | VARCHAR(100) | NULLABLE | Price band range |
-| issue_type | VARCHAR(50) | Choices: BookBuilt/FixedPrice | How IPO is priced |
-| current_return | DECIMAL(10,2) | DEFAULT=0 | Return from IPO price |
-| listing_gain | DECIMAL(10,2) | NULLABLE | Gain on listing day |
-| created_at | DATETIME | AUTO_NOW_ADD | Created at |
-| updated_at | DATETIME | AUTO_NOW | Updated at |
+| listing_price | DECIMAL(10,2) | NOT NULL | Opening price at listing |
+| current_market_price | DECIMAL(10,2) | NOT NULL | Current stock price |
+| issue_size | VARCHAR(100) | NOT NULL | Total issue size (e.g. "₹500 Cr") |
+| issue_type | VARCHAR(50) | NOT NULL | How IPO is priced |
+| current_return | DECIMAL(5,2) | NOT NULL | Return from IPO price |
+| listing_gain | DECIMAL(5,2) | NOT NULL | Gain on listing day |
 
 **Relationships**:
 - One company → Many IPOs
@@ -198,25 +189,21 @@ Password: [Set in .env]
 
 ### 4. ipo_document
 
-**Purpose**: Store IPO related documents (prospectus, etc.)
+**Purpose**: Store IPO related documents (RHP & DRHP prospectuses as URLs)
 
 **Fields**:
 | Field | Type | Constraints | Description |
 |-------|------|-------------|-------------|
 | id | INTEGER | PRIMARY KEY, AUTO_INCREMENT | Document ID |
-| ipo_id | INTEGER | FK (ipo_ipo), NOT NULL | Links to IPO |
-| document_name | VARCHAR(255) | NOT NULL | Document title |
-| document_file | FileField | NOT NULL | Uploaded file path |
-| document_type | VARCHAR(50) | Choices: Prospectus/Listing/Other | Document category |
-| uploaded_at | DATETIME | AUTO_NOW_ADD | Upload timestamp |
-| updated_at | DATETIME | AUTO_NOW | Update timestamp |
+| ipo_id | INTEGER | FK (ipos), NOT NULL | Links to IPO |
+| rhp_pdf | URLField(500) | NOT NULL | Red Herring Prospectus URL |
+| drhp_pdf | URLField(500) | NOT NULL | Draft Red Herring Prospectus URL |
 
 **Sample Data**:
 ```sql
-| id | ipo_id | document_name | document_type |
-|----|--------|---------------|---------------|
-| 1  | 1      | Draft Prospectus | Prospectus |
-| 2  | 1      | Board Approval | Other |
+| id | ipo_id | rhp_pdf | drhp_pdf |
+|----|--------|---------|----------|
+| 1  | 1      | https://sebi.gov.in/rhp.pdf | https://sebi.gov.in/drhp.pdf |
 ```
 
 ---
@@ -230,12 +217,9 @@ Password: [Set in .env]
 |-------|------|-------------|-------------|
 | id | INTEGER | PRIMARY KEY, AUTO_INCREMENT | Application ID |
 | user_id | INTEGER | FK (auth_user), NOT NULL | User who applied |
-| ipo_id | INTEGER | FK (ipo_ipo), NOT NULL | IPO applied for |
-| quantity | BIGINTEGER | NOT NULL | Number of shares |
-| status | VARCHAR(50) | Choices: Pending/Approved/Rejected | Application status |
-| applied_at | DATETIME | AUTO_NOW_ADD | Application time |
-| created_at | DATETIME | AUTO_NOW_ADD | Record creation |
-| updated_at | DATETIME | AUTO_NOW | Last update |
+| ipo_id | INTEGER | FK (ipos), NOT NULL | IPO applied for |
+| quantity | INTEGER | NULLABLE | Number of shares applied |
+| status | VARCHAR(50) | NULLABLE | Application status |
 
 **Sample Data**:
 ```sql
@@ -299,17 +283,17 @@ Example: Many users can apply for same IPO
 - Rule: ON DELETE CASCADE
 - Effect: If company deleted, all its IPOs deleted
 
-**ipo_document.ipo_id → ipo_ipo.id**
+**documents.ipo_id → ipos.id**
 - Rule: ON DELETE CASCADE
 - Effect: If IPO deleted, all its documents deleted
 
-**ipo_application.user_id → auth_user.id**
+**applications.user_id → auth_user.id**
 - Rule: ON DELETE CASCADE
-- Effect: If user deleted, all applications deleted
+- Effect: If user deleted, all their applications deleted
 
-**ipo_application.ipo_id → ipo_ipo.id**
+**applications.ipo_id → ipos.id**
 - Rule: ON DELETE CASCADE
-- Effect: If IPO deleted, all applications deleted
+- Effect: If IPO deleted, all applications for it are deleted
 
 ---
 

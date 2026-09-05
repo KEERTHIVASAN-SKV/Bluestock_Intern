@@ -28,17 +28,23 @@ If `.env` doesn't exist:
 copy .env.example .env
 ```
 
-Edit `.env` with your settings (defaults should work):
+Edit `.env` with your settings:
 ```
-SECRET_KEY=your-secret-key-here
+SECRET_KEY=django-insecure-your-secret-key-change-this-in-production
 DEBUG=True
-DB_ENGINE=django.db.backends.sqlite3
-DB_NAME=ipo_db.sqlite3
+
+# PostgreSQL database
+DB_ENGINE=django.db.backends.postgresql
+DB_NAME=ipo_db
+DB_USER=postgres
+DB_PASSWORD=your_postgres_password
+DB_HOST=localhost
+DB_PORT=5432
 ```
 
 ### 1.4 Install Dependencies
 ```bash
-python -m python -m pip install -r requirement.txt
+python -m pip install -r requirement.txt
 ```
 **Expected**: Takes 2-3 minutes, all packages installed
 
@@ -211,7 +217,7 @@ python manage.py runserver
 ### "Module not found" error
 ```bash
 # Reinstall dependencies
-python -m python -m pip install -r requirement.txt
+python -m pip install -r requirement.txt
 ```
 
 ### Frontend won't start
@@ -247,7 +253,7 @@ npm run dev -- --port 3001
 ### Backend Terminal (runserver)
 ```
 Starting development server at http://127.0.0.1:8000/
-Django version 5.0, using settings 'ipo_backend.settings'
+Django version 5.2.3, using settings 'ipo_backend.settings'
 Quit the server with CONTROL-C.
 ```
 

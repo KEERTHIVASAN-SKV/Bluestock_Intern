@@ -10,7 +10,7 @@
 │  ┌──────────────────┐              ┌──────────────────────┐     │
 │  │   React.js UI    │              │   Django Backend     │     │
 │  │   (Frontend)     │◄────JSON────►│   REST API Server    │     │
-│  │ Port: 3000       │              │ Port: 8000           │     │
+│  │ Port: 5173       │              │ Port: 8000           │     │
 │  └──────────────────┘              └──────────────────────┘     │
 │         │                                    │                   │
 │         │                                    │                   │
@@ -18,8 +18,8 @@
 │         │ REST API Calls                    │ Operations         │
 │         │                                    │                   │
 │         │                           ┌────────▼────────┐         │
-│         │                           │   SQLite DB     │         │
-│         │                           │   (or MySQL)    │         │
+│         │                           │   PostgreSQL DB │         │
+│         │                           │   (ipo_db)      │         │
 │         │                           └─────────────────┘         │
 │         │                                                        │
 │         └────────────────────────────────────────────────────┘  │
@@ -32,7 +32,7 @@
 
 ### 1. Frontend Layer (React.js)
 ```
-React Application (Port 3000)
+React Application (Port 5173)
 ├── Pages/Components
 │   ├── Authentication (Login, SignUp, Forgot Password)
 │   ├── Public Pages (IPO, Blog, Analysis, Brokers)
@@ -72,7 +72,7 @@ Django Application
 ├── Models
 │   ├── Company (company_name, logo, etc.)
 │   ├── IPO (company_fk, dates, prices, status)
-│   ├── Document (ipo_fk, file, type)
+│   ├── Document (ipo_fk, rhp_pdf URL, drhp_pdf URL)
 │   ├── Application (user_fk, ipo_fk, quantity)
 │   └── User (Django built-in + custom)
 ├── Views (ViewSets)
@@ -89,15 +89,15 @@ Django Application
     └── IsAdminOrReadOnly (Custom)
 ```
 
-### 4. Database Layer (SQLite)
+### 4. Database Layer (PostgreSQL)
 ```
-SQLite Database (ipo_db.sqlite3)
+PostgreSQL Database (ipo_db)
 ├── Tables
-│   ├── auth_user (Users)
+│   ├── auth_user (Users - Django built-in)
 │   ├── ipo_company (Companies)
-│   ├── ipo_ipo (IPOs)
-│   ├── ipo_document (Documents)
-│   ├── ipo_application (Applications)
+│   ├── ipos (IPOs - custom db_table name)
+│   ├── documents (Documents - custom db_table name)
+│   ├── applications (Applications - custom db_table name)
 │   └── ... (Django system tables)
 └── Relationships
     └── IPO ← Company (ForeignKey)
@@ -281,50 +281,44 @@ Main API Router (api/v1/)
 ### Core Tables
 ```
 Company
-├── id (PK)
-├── company_name (VARCHAR)
-├── company_logo (URL)
-└── created_at (DateTime)
+├── id (PK, auto)
+├── company_name (VARCHAR 255)
+└── company_logo (URLField 500)
 
-IPO
-├── id (PK)
-├── company_id (FK → Company)
+IPO  (db_table: 'ipos')
+├── id (PK, auto)
+├── company_id (FK → Company, CASCADE)
+├── price_band (VARCHAR 50)
 ├── open_date (Date)
 ├── close_date (Date)
 ├── listing_date (Date)
-├── status (Choice: Upcoming/Ongoing/Completed)
-├── ipo_price (Decimal)
-├── listing_price (Decimal)
-├── current_market_price (Decimal)
-├── issue_size (Integer)
-├── issue_type (Choice: BookBuilt/FixedPrice)
-├── current_return (Decimal)
-├── listing_gain (Decimal)
-└── created_at (DateTime)
+├── status (Choice: Upcoming / Open / Closed / Listed)
+├── ipo_price (Decimal 10,2)
+├── listing_price (Decimal 10,2)
+├── listing_gain (Decimal 5,2)
+├── current_market_price (Decimal 10,2)
+└── current_return (Decimal 5,2)
 
-Document
-├── id (PK)
-├── ipo_id (FK → IPO)
-├── document_name (VARCHAR)
-├── document_file (File)
-├── document_type (Choice)
-└── uploaded_at (DateTime)
+Document  (db_table: 'documents')
+├── id (PK, auto)
+├── ipo_id (FK → IPO, CASCADE)
+├── rhp_pdf (URLField 500)    ← Red Herring Prospectus
+└── drhp_pdf (URLField 500)   ← Draft Red Herring Prospectus
 
-Application
-├── id (PK)
-├── user_id (FK → User)
-├── ipo_id (FK → IPO)
-├── quantity (Integer)
-├── status (Choice)
-└── applied_at (DateTime)
+Application  (db_table: 'applications')
+├── id (PK, auto)
+├── user_id (FK → auth_user, CASCADE)
+├── ipo_id (FK → IPO, CASCADE)
+├── quantity (Integer, nullable)
+└── status (VARCHAR 50, nullable)
 
-User (Django auth_user)
+User (Django auth_user — built-in)
 ├── id (PK)
 ├── username (VARCHAR)
 ├── email (Email)
-├── password (Hashed)
-├── first_name (VARCHAR)
-├── is_staff (Boolean) ← Admin flag
+├── password (Hashed PBKDF2)
+├── first_name (VARCHAR)  ← stores 'name' from registration
+├── is_staff (Boolean)    ← Admin flag
 ├── is_superuser (Boolean)
 └── date_joined (DateTime)
 ```
@@ -414,19 +408,25 @@ alert("Error creating IPO: " + error.message)
 ### Libraries & Packages
 ```
 Backend:
-├── Django 5.0
-├── Django REST Framework
-├── djangorestframework-simplejwt
+├── Django 5.2.3
+├── Django REST Framework 3.16
+├── djangorestframework-simplejwt 5.5
 ├── django-cors-headers
-├── nselib (Stock market data)
-└── pandas (Data processing)
+├── django-filter 25.1
+├── nselib 2.5.1 (NSE stock market data)
+└── pandas 2.2.3 (Data processing)
 
 Frontend:
-├── React 18
+├── React 19
+├── Vite 6 (build tool / dev server → port 5173)
 ├── Axios (HTTP client)
-├── Styled Components
-├── React Router
-└── Framer Motion (Animations)
+├── TailwindCSS 4
+├── Bootstrap 5 + React-Bootstrap
+├── React Router 7
+├── Chart.js / Recharts (charts)
+├── Framer Motion (animations)
+├── FontAwesome / React Icons
+└── Styled Components
 ```
 
 ---
@@ -480,15 +480,15 @@ Cached Data:
 │  │  - SSL/TLS termination                  │           │
 │  └────────────────────────────────────────┘           │
 │           ↓                          ↓               │
-│  ┌──────────────────┐        ┌──────────────────┐    │
-│  │ Frontend Build   │        │ Django WSGI      │    │
-│  │ (React SPA)      │        │ (Gunicorn/       │    │
-│  │                  │        │  uWSGI)          │    │
-│  └──────────────────┘        └──────────────────┘    │
+│  ┌──────────────────┐        ┌──────────────────────┐    │
+│  │ Frontend Build   │        │ Django WSGI           │    │
+│  │ (React + Vite)   │        │ (Gunicorn/uWSGI)      │    │
+│  │                  │        │                       │    │
+│  └──────────────────┘        └──────────────────────┘    │
 │                                    ↓                 │
 │                            ┌──────────────────┐      │
 │                            │  PostgreSQL DB   │      │
-│                            │  (Production DB) │      │
+│                            │  (ipo_db)        │      │
 │                            └──────────────────┘      │
 │                                                       │
 └──────────────────────────────────────────────────────┘
@@ -502,8 +502,10 @@ Cached Data:
 2. **REST API**: Standard HTTP methods, JSON responses
 3. **Styled Components**: Scoped CSS, preventing conflicts
 4. **React Context**: Simple state management (could upgrade to Redux)
-5. **SQLite Dev**: Lightweight for development (PostgreSQL for production)
+5. **PostgreSQL**: Configured as the primary database for both dev and production
 6. **Separation of Concerns**: Backend handles logic, Frontend handles UI
+7. **Vite**: Modern ES-module build tool with instant HMR on port 5173
+8. **Custom db_table names**: `ipos`, `documents`, `applications` (for PostgreSQL compatibility)
 
 ---
 
