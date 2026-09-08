@@ -71,6 +71,13 @@ class DocumentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrReadOnly]
     filterset_fields = ['ipo']
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        ipo_param = self.request.query_params.get('ipo') or self.request.query_params.get('ipo_id')
+        if ipo_param:
+            queryset = queryset.filter(ipo_id=ipo_param)
+        return queryset
+
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()

@@ -15,6 +15,23 @@ class IPOSerializer(serializers.ModelSerializer):
         model = IPO
         fields = '__all__'
 
+    def validate(self, attrs):
+        open_date = attrs.get('open_date') or (self.instance.open_date if self.instance else None)
+        close_date = attrs.get('close_date') or (self.instance.close_date if self.instance else None)
+        listing_date = attrs.get('listing_date') or (self.instance.listing_date if self.instance else None)
+
+        errors = {}
+        if open_date and close_date and open_date > close_date:
+            errors['close_date'] = 'Close date must be greater than or equal to Open date (open_date <= close_date).'
+        if close_date and listing_date and close_date > listing_date:
+            errors['listing_date'] = 'Listing date must be greater than or equal to Close date (close_date <= listing_date).'
+        if open_date and listing_date and open_date > listing_date:
+            errors['listing_date'] = 'Listing date must be greater than or equal to Open date (open_date <= listing_date).'
+
+        if errors:
+            raise serializers.ValidationError(errors)
+        return attrs
+
     def create(self, validated_data):
         company_data = validated_data.pop('company', {})
         

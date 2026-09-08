@@ -35,7 +35,7 @@ const IPO1 = () => {
       await Promise.all(
         ipoList.map(async (ipo) => {
           try {
-            const resp = await fetch(`http://127.0.0.1:8000/api/v1/documents/?ipo_id=${ipo.id}`);
+            const resp = await fetch(`http://127.0.0.1:8000/api/v1/documents/?ipo=${ipo.id}`);
             const docs = await resp.json();
             docsByIpo[ipo.id] = docs;
           } catch (err) {
@@ -82,7 +82,7 @@ const IPO1 = () => {
               .filter((ipo) => ipo.status === "Upcoming")
               .map((ipo, index) => {
                 const docs = ipoDocuments[ipo.id] || [];
-                const doc = docs[index] || {}; // use first doc or empty
+                const doc = docs.length > 0 ? docs[0] : {}; // always use first doc for this IPO
                 return (
                   <div className="ipo-card" key={ipo.id}>
                     <div className="ipo-image-container">

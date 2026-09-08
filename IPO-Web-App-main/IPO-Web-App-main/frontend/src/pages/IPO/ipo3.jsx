@@ -32,7 +32,7 @@ const Ipo3 = () => {
       await Promise.all(
         ipos.map(async (ipo) => {
           try {
-            const resp = await fetch(`http://127.0.0.1:8000/api/v1/documents/?ipo_id=${ipo.id}`);
+            const resp = await fetch(`http://127.0.0.1:8000/api/v1/documents/?ipo=${ipo.id}`);
             const docs = await resp.json();
             docsByIpo[ipo.id] = docs;
           } catch (err) {

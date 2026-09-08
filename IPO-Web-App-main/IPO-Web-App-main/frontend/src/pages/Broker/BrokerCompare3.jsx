@@ -33,12 +33,26 @@ const data = [
   }
 ];
 
+const brokerLogos = {
+  "Angel One": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Angelone_logo.svg/512px-Angelone_logo.svg.png",
+  "Zerodha": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Zerodha_Logo.svg/512px-Zerodha_Logo.svg.png",
+};
+
 const BrokerCompare3 = () => {
   return (
     <div style={styles.container}>
       <h2 style={styles.title}>Pros & Cons</h2>
       {data.map((section, index) => (
         <div key={index} style={styles.prosConsSection}>
+          {/* Broker name header with logo */}
+          <div style={styles.brokerNameHeader}>
+            <img
+              src={brokerLogos[section.category]}
+              alt={section.category}
+              style={styles.brokerLogoImg}
+            />
+            <span style={styles.brokerNameText}>{section.category}</span>
+          </div>
           <div style={styles.table}>
             <div style={styles.header}>
               <div style={styles.prosHeader}>Pros</div>
@@ -155,7 +169,25 @@ const styles = {
     color: "red",
     marginRight: "10px",
     fontSize: "16px"
-  }
+  },
+  brokerNameHeader: {
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+    padding: "14px 20px",
+    background: "#f0f4ff",
+    borderBottom: "1px solid #ddd",
+  },
+  brokerLogoImg: {
+    width: "36px",
+    height: "36px",
+    objectFit: "contain",
+  },
+  brokerNameText: {
+    fontSize: "18px",
+    fontWeight: "bold",
+    color: "#222",
+  },
 };
 
 export default BrokerCompare3;

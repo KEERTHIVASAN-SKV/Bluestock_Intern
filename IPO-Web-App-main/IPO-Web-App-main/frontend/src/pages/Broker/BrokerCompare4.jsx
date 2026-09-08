@@ -8,7 +8,7 @@ Chart.register(...registerables);
 
 const ratings = [
   {
-    logo: "📈", 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Angelone_logo.svg/512px-Angelone_logo.svg.png", 
     name: "Angel One",
     rating: 4.7,
     trust: 5,
@@ -16,7 +16,7 @@ const ratings = [
     tech: 4,
   },
   {
-    logo: "📊",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Zerodha_Logo.svg/512px-Zerodha_Logo.svg.png",
     name: "Zerodha",
     rating: 4.6,
     trust: 5,
@@ -60,7 +60,9 @@ const BrokerCompare4 = () => {
       <div style={styles.ratingsContainer}>
         {ratings.map((broker, index) => (
           <div key={index} style={styles.card}>
-            <div style={styles.logo}>{broker.logo}</div>
+            <div style={styles.logo}>
+              <img src={broker.logo} alt={broker.name} style={{ width: '60px', height: '60px', objectFit: 'contain' }} />
+            </div>
             <h3 style={styles.brokerName}>{broker.name}</h3>
             <p style={styles.rating}>{broker.rating}</p>
             <div style={styles.stars}>

@@ -8,16 +8,16 @@ const brokers = [
   {
     name: "Angel One",
     rating: 4.7,
-    logo: "/angelone-logo.png",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Angelone_logo.svg/512px-Angelone_logo.svg.png",
     buttonText: "Open Demat Account",
-    color: "#16a34a",
+    color: "#FF8C00",
   },
   {
     name: "Zerodha",
     rating: 4.6,
-    logo: "/zerodha-logo.png",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Zerodha_Logo.svg/512px-Zerodha_Logo.svg.png",
     buttonText: "Open Demat Account",
-    color: "#16a34a",
+    color: "#387ED1",
   },
 ];
 
@@ -43,7 +43,7 @@ const data = [
 ];
 
 const accountCharges = [
-  ["Account Opening Charges", "0", "200"],
+  ["Account Opening Charges", "₹ 0", "₹ 200"],
   ["Account Maintenance Charges", "₹ 240 for first year, then ₹ 23.6/Month", "₹ 300 per year"],
 ];
 
@@ -91,8 +91,6 @@ const Table = ({ headers, data }) => (
 
 const BrokerCompare = () => {
   return (
-
-    
     <div className="broker-compare-container">
       <div className="side-nav">
         <ul>
@@ -105,19 +103,29 @@ const BrokerCompare = () => {
       </div>
 
       <div className="main-content">
-
-
+        {/* Comparison Header — two broker cards with VS in the center */}
         <div className="comparison-header">
-          {brokers.map((broker, index) => (
-            <div key={index} className="broker-card">
-              <img src={broker.logo} alt={broker.name} className="broker-logo" />
-              <h2>{broker.name}</h2>
-              <div className="rating">{renderStars(broker.rating)}</div>
-              <h3>{broker.rating}</h3>
-              <button className="open-account">{broker.buttonText}</button>
-            </div>
-          ))}
+          <div className="broker-card">
+            <img src={brokers[0].logo} alt={brokers[0].name} className="broker-logo" />
+            <h2>{brokers[0].name}</h2>
+            <div className="rating">{renderStars(brokers[0].rating)}</div>
+            <h3>{brokers[0].rating}</h3>
+            <button className="open-account" style={{ backgroundColor: brokers[0].color }}>
+              {brokers[0].buttonText}
+            </button>
+          </div>
+
           <div className="vs-circle">VS</div>
+
+          <div className="broker-card">
+            <img src={brokers[1].logo} alt={brokers[1].name} className="broker-logo" />
+            <h2>{brokers[1].name}</h2>
+            <div className="rating">{renderStars(brokers[1].rating)}</div>
+            <h3>{brokers[1].rating}</h3>
+            <button className="open-account" style={{ backgroundColor: brokers[1].color }}>
+              {brokers[1].buttonText}
+            </button>
+          </div>
         </div>
 
         <h2>Active Clients</h2>

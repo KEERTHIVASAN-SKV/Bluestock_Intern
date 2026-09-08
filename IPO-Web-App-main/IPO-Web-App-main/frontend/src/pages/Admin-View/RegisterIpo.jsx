@@ -40,6 +40,8 @@ const RegisterIpo = () => {
   const [currentReturn, setCurrentReturn] = useState("");
   const [logo, setLogo] = useState(null);
   const [logoUrl, setLogoUrl] = useState("");
+  const [rhpPdf, setRhpPdf] = useState("");
+  const [drhpPdf, setDrhpPdf] = useState("");
 
   const [ipos, setIpos] = useState([]);
   const [selectedIpoId, setSelectedIpoId] = useState(null);
@@ -73,6 +75,20 @@ const RegisterIpo = () => {
       return;
     }
 
+    // Validate date sequence: open_date <= close_date <= listing_date
+    if (openDate && closeDate && openDate > closeDate) {
+      alert("Validation Error: Close date must be greater than or equal to Open date (Open Date <= Close Date).");
+      return;
+    }
+    if (closeDate && listingDate && closeDate > listingDate) {
+      alert("Validation Error: Listing date must be greater than or equal to Close date (Close Date <= Listing Date).");
+      return;
+    }
+    if (openDate && listingDate && openDate > listingDate) {
+      alert("Validation Error: Listing date must be greater than or equal to Open date (Open Date <= Listing Date).");
+      return;
+    }
+
     // Build request object matching Django serializer format
     const ipoData = {
       company: {
@@ -84,7 +100,7 @@ const RegisterIpo = () => {
       close_date: closeDate,
       issue_size: issueSize,
       issue_type: issueType,
-      listing_date: listingDate || "2099-12-31",
+      listing_date: listingDate || closeDate || openDate,
       status: status,
       ipo_price: parseFloat(ipoPrice) || 0,
       listing_price: parseFloat(listingPrice) || 0,
@@ -101,6 +117,8 @@ const RegisterIpo = () => {
         return;
       }
 
+      let savedIpoId = selectedIpoId;
+
       if (selectedIpoId) {
         // Update existing IPO
         const response = await axios.put(
@@ -114,6 +132,7 @@ const RegisterIpo = () => {
           }
         );
         console.log("IPO updated:", response.data);
+        savedIpoId = response.data.id || selectedIpoId;
         alert("IPO updated successfully!");
       } else {
         // Create new IPO
@@ -128,13 +147,51 @@ const RegisterIpo = () => {
           }
         );
         console.log("IPO created:", response.data);
+        savedIpoId = response.data.id;
         alert("IPO created successfully!");
       }
+
+      // Save or update RHP/DRHP Documents if provided
+      if (savedIpoId && (rhpPdf || drhpPdf)) {
+        try {
+          const docResp = await axios.get(`http://127.0.0.1:8000/api/v1/documents/?ipo=${savedIpoId}`);
+          if (docResp.data && docResp.data.length > 0) {
+            const existingDocId = docResp.data[0].id;
+            await axios.put(
+              `http://127.0.0.1:8000/api/v1/documents/${existingDocId}/`,
+              { ipo: savedIpoId, rhp_pdf: rhpPdf, drhp_pdf: drhpPdf },
+              { headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` } }
+            );
+          } else {
+            await axios.post(
+              "http://127.0.0.1:8000/api/v1/documents/",
+              { ipo: savedIpoId, rhp_pdf: rhpPdf, drhp_pdf: drhpPdf },
+              { headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` } }
+            );
+          }
+        } catch (docError) {
+          console.error("Error saving documents:", docError);
+        }
+      }
+
       fetchIpos();
       resetForm();
     } catch (error) {
       console.error("Error saving IPO:", error.response?.data || error.message);
-      alert(`Error saving IPO: ${error.response?.data?.detail || error.message}`);
+      const errorData = error.response?.data;
+      let errorMsg = error.message;
+      if (errorData) {
+        if (typeof errorData === 'string') {
+          errorMsg = errorData;
+        } else if (errorData.detail) {
+          errorMsg = errorData.detail;
+        } else {
+          errorMsg = Object.entries(errorData)
+            .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(", ") : v}`)
+            .join("\n");
+        }
+      }
+      alert(`Error saving IPO:\n${errorMsg}`);
     }
   };
 
@@ -171,12 +228,14 @@ const RegisterIpo = () => {
     setCurrentReturn("");
     setLogo(null);
     setLogoUrl("");
+    setRhpPdf("");
+    setDrhpPdf("");
     setSelectedIpoId(null);
   };
 
   // Populate form fields for editing
   const handleEdit = (ipo) => {
-    setCompanyName(ipo.company.company_name || "");
+    setCompanyName(ipo.company?.company_name || "");
     setOpenDate(ipo.open_date || "");
     setCloseDate(ipo.close_date || "");
     setIssueSize(ipo.issue_size || "");
@@ -189,7 +248,23 @@ const RegisterIpo = () => {
     setCmp(ipo.current_market_price || "");
     setCurrentReturn(ipo.current_return || "");
     setSelectedIpoId(ipo.id);
-    setLogoUrl(ipo.company.company_logo || "");
+    setLogoUrl(ipo.company?.company_logo || "");
+
+    // Fetch existing documents for this IPO
+    axios.get(`http://127.0.0.1:8000/api/v1/documents/?ipo=${ipo.id}`)
+      .then((res) => {
+        if (res.data && res.data.length > 0) {
+          setRhpPdf(res.data[0].rhp_pdf || "");
+          setDrhpPdf(res.data[0].drhp_pdf || "");
+        } else {
+          setRhpPdf("");
+          setDrhpPdf("");
+        }
+      })
+      .catch(() => {
+        setRhpPdf("");
+        setDrhpPdf("");
+      });
   };
 
   // Handle logo file change
@@ -283,22 +358,28 @@ const RegisterIpo = () => {
 
               <FormGroupGrid>
                 <div>
-                  <label>Open</label>
+                  <label>Open Date</label>
                   <Input
-                    type="text"
+                    type="date"
                     value={openDate}
                     onChange={(e) => setOpenDate(e.target.value)}
                     required
                   />
                 </div>
                 <div>
-                  <label>Close</label>
+                  <label>Close Date</label>
                   <Input
-                    type="text"
+                    type="date"
                     value={closeDate}
+                    min={openDate || undefined}
                     onChange={(e) => setCloseDate(e.target.value)}
                     required
                   />
+                  {openDate && closeDate && openDate > closeDate && (
+                    <span style={{ color: "#dc3545", fontSize: "12px", marginTop: "4px", display: "block" }}>
+                      ⚠️ Close date must be on or after Open date
+                    </span>
+                  )}
                 </div>
               </FormGroupGrid>
 
@@ -330,11 +411,17 @@ const RegisterIpo = () => {
                 <div>
                   <label>Listing Date</label>
                   <Input
-                    type="text"
+                    type="date"
                     value={listingDate}
+                    min={closeDate || openDate || undefined}
                     onChange={(e) => setListingDate(e.target.value)}
                     required
                   />
+                  {((closeDate && listingDate && closeDate > listingDate) || (openDate && listingDate && openDate > listingDate)) && (
+                    <span style={{ color: "#dc3545", fontSize: "12px", marginTop: "4px", display: "block" }}>
+                      ⚠️ Listing date must be on or after Close date
+                    </span>
+                  )}
                 </div>
                 <div>
                   <label>Status</label>
@@ -349,6 +436,28 @@ const RegisterIpo = () => {
                     <option>Closed</option>
                     <option>Listed</option>
                   </Select>
+                </div>
+              </FormGroupGrid>
+
+              <h3>IPO Prospectus Documents (URL-based Files)</h3>
+              <FormGroupGrid>
+                <div>
+                  <label>RHP Document URL</label>
+                  <Input
+                    type="url"
+                    placeholder="https://.../rhp.pdf"
+                    value={rhpPdf}
+                    onChange={(e) => setRhpPdf(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label>DRHP Document URL</label>
+                  <Input
+                    type="url"
+                    placeholder="https://.../drhp.pdf"
+                    value={drhpPdf}
+                    onChange={(e) => setDrhpPdf(e.target.value)}
+                  />
                 </div>
               </FormGroupGrid>
 

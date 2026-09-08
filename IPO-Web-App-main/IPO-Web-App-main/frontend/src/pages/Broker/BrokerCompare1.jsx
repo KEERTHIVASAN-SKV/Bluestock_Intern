@@ -27,12 +27,12 @@ const BrokerCompare1 = () => {
         {brokerageData.map((item, index) => (
           <div className="brokerage-row" key={index}>
             <div className="broker-card">
-              <img src="/angelone-logo.png" alt="Angel One" className="broker-logo" />
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Angelone_logo.svg/512px-Angelone_logo.svg.png" alt="Angel One" className="broker-logo" />
               <h3>{item.charge}</h3>
             </div>
             <p>{item.label}</p>
             <div className="broker-card">
-              <img src="/zerodha-logo.png" alt="Zerodha" className="broker-logo" />
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Zerodha_Logo.svg/512px-Zerodha_Logo.svg.png" alt="Zerodha" className="broker-logo" />
               <h3>{(item.charge * 2.5).toFixed(2)}</h3> {/* Example multiplier */}
             </div>
           </div>

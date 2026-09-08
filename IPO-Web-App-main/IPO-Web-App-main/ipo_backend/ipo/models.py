@@ -35,6 +35,23 @@ class IPO(models.Model):
     current_market_price = models.DecimalField(max_digits=10, decimal_places=2)
     current_return = models.DecimalField(max_digits=5, decimal_places=2)
 
+    def clean(self):
+        super().clean()
+        from django.core.exceptions import ValidationError
+        errors = {}
+        if self.open_date and self.close_date and self.open_date > self.close_date:
+            errors['close_date'] = 'Close date must be greater than or equal to Open date (open_date <= close_date).'
+        if self.close_date and self.listing_date and self.close_date > self.listing_date:
+            errors['listing_date'] = 'Listing date must be greater than or equal to Close date (close_date <= listing_date).'
+        if self.open_date and self.listing_date and self.open_date > self.listing_date:
+            errors['listing_date'] = 'Listing date must be greater than or equal to Open date (open_date <= listing_date).'
+        if errors:
+            raise ValidationError(errors)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.company.company_name} IPO"
 

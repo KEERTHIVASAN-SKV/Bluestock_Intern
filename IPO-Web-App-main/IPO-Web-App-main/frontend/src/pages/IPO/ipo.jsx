@@ -232,6 +232,11 @@ const ActionButton = styled.button`
   cursor: pointer;
   transition: all 0.3s ease;
   white-space: nowrap;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 
   &:hover {
     background: ${props => props.type === 'rhp' ? '#685DFF' : '#E53535'};
@@ -267,6 +272,7 @@ const LoadingState = styled.div`
 
 function Ipo() {
   const [ipoList, setIpoList] = useState([]);
+  const [ipoDocuments, setIpoDocuments] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState("All");
@@ -291,6 +297,30 @@ function Ipo() {
 
     fetchIpoData();
   }, []);
+
+  // Fetch documents for every IPO
+  useEffect(() => {
+    if (!ipoList.length) return;
+
+    const fetchAllDocs = async () => {
+      const docsByIpo = {};
+      await Promise.all(
+        ipoList.map(async (ipo) => {
+          try {
+            const resp = await fetch(`http://127.0.0.1:8000/api/v1/documents/?ipo=${ipo.id}`);
+            const docs = await resp.json();
+            docsByIpo[ipo.id] = Array.isArray(docs) ? docs : [];
+          } catch (err) {
+            console.error(`Error fetching docs for IPO ${ipo.id}:`, err);
+            docsByIpo[ipo.id] = [];
+          }
+        })
+      );
+      setIpoDocuments(docsByIpo);
+    };
+
+    fetchAllDocs();
+  }, [ipoList]);
 
   const filteredIpos = selectedStatus === "All" 
     ? ipoList 
@@ -355,7 +385,10 @@ function Ipo() {
           </GridContainer>
         ) : (
           <GridContainer>
-            {filteredIpos.map(ipo => (
+            {filteredIpos.map(ipo => {
+              const docs = ipoDocuments[ipo.id] || [];
+              const doc = docs.length > 0 ? docs[0] : null;
+              return (
               <IpoCard key={ipo.id}>
                 <LogoSection>
                   <Logo 
@@ -400,15 +433,28 @@ function Ipo() {
                 </InfoGrid>
 
                 <ButtonGroup>
-                  <ActionButton type="rhp" disabled>
-                    RHP
-                  </ActionButton>
-                  <ActionButton type="drhp" disabled>
-                    DRHP
-                  </ActionButton>
+                  {doc?.rhp_pdf ? (
+                    <ActionButton as="a" href={doc.rhp_pdf} target="_blank" rel="noreferrer" type="rhp">
+                      RHP
+                    </ActionButton>
+                  ) : (
+                    <ActionButton type="rhp" disabled>
+                      RHP
+                    </ActionButton>
+                  )}
+                  {doc?.drhp_pdf ? (
+                    <ActionButton as="a" href={doc.drhp_pdf} target="_blank" rel="noreferrer" type="drhp">
+                      DRHP
+                    </ActionButton>
+                  ) : (
+                    <ActionButton type="drhp" disabled>
+                      DRHP
+                    </ActionButton>
+                  )}
                 </ButtonGroup>
               </IpoCard>
-            ))}
+              );
+            })}
           </GridContainer>
         )}
       </IpoContainer>
